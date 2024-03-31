@@ -4,8 +4,6 @@ Barky is inspired by Dane Hillard's (https://github.com/daneah/practices-of-the-
 
 Let's look at the elements in this list more carefully to guide what we'll do in this firs refactor:
 
-
-
 * Abstraction - The ability to design for extension by separating the generic from the concrete.
 * Extensibility - The ability to design for future expansion or redefinition
 * Inheritance - The ability for code to evolve through extension and obscuration
@@ -67,9 +65,16 @@ Dane Hillard's code focused on a command-line interface, but we will systematica
 
 1. Replace the custom data handling (the DatabaseManager module) with the [Django O/RM](https://docs.djangoproject.com/en/5.0/topics/db/queries/)
     1. Replace the existing DatabaseManager with a combination of the repository pattern and the Django ORM.
-    1. Complete the implicit and explicit promises of the existing Data API 
+    2. Complete the implicit and explicit promises of the existing Data API 
 2. Replace the CLI web-based REST API using the Django REST Framework
 3. Improve architecture:
     1. SOLID
     2. Repository Pattern and Unit of Work (understand how the Django ORM is really doing this)
     3. Dependency injection
+4. Introduce a message bus to augment event-driven architecture.
+5. Determine whether a separate Domain Model is needed (pros and cons)
+
+
+## Refactoring Notes relative to APP
+
+1. The [Command](https://refactoring.guru/design-patterns/command) pattern and Barky: Whereas Barky uses the `Command` design pattern, the Django Rest Framework's [ViewSet](https://www.django-rest-framework.org/api-guide/viewsets/) structure as a controller in the [Model View Controller](https://www.askpython.com/django/django-mvt-architecture) sense.  As such, the objective of the Command pattern - to achieve a separation of concerns such that all pathways to effect a state change in the application use the same facility - is achieved with the ViewSet acting as a controller.  A Django app's views module works with DRF's ViewSet to handle the same thing.  As such, we no longer require the Command module from Barky.
