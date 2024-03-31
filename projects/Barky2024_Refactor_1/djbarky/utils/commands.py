@@ -84,6 +84,7 @@ class ImportGitHubStarsCommand(Command):
     """
     Import starred repos in Github - credit Dane Hillard
     """
+
     def _extract_bookmark_info(self, repo):
         return {
             "title": repo["name"],

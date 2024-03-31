@@ -10,6 +10,7 @@ LEXERS = [item for item in get_all_lexers() if item[1]]
 LANGUAGE_CHOICES = sorted([(item[1][0], item[0]) for item in LEXERS])
 STYLE_CHOICES = sorted([(item, item) for item in get_all_styles()])
 
+
 # Create your models here.
 class Bookmark(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -45,12 +46,13 @@ class Snippet(models.Model):
         representation of the code snippet.
         """
         lexer = get_lexer_by_name(self.language)
-        linenos = 'table' if self.linenos else False
-        options = {'title': self.title} if self.title else {}
-        formatter = HtmlFormatter(style=self.style, linenos=linenos,
-                                full=True, **options)
+        linenos = "table" if self.linenos else False
+        options = {"title": self.title} if self.title else {}
+        formatter = HtmlFormatter(
+            style=self.style, linenos=linenos, full=True, **options
+        )
         self.highlighted = highlight(self.code, lexer, formatter)
-        super().save(*args, **kwargs)        
+        super().save(*args, **kwargs)
 
     def __str__(self) -> str:
         return f"{self.title} - {self.id}"
