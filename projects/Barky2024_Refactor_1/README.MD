@@ -66,15 +66,18 @@ For comparitive convenience, I will merge the **snippets** project with Barky fo
 Dane Hillard's code focused on a command-line interface, but we will systematically refactor that code, across a series of branches, to do the following:
 
 1. Replace the custom data handling (the DatabaseManager module) with the [Django O/RM](https://docs.djangoproject.com/en/5.0/topics/db/queries/)
-    1. Replace the existing DatabaseManager with a combination of the repository pattern and the Django ORM.
-    2. Complete the implicit and explicit promises of the existing Data API 
+    1. Replace the existing DatabaseManager with the Django ORM.
+    2. Adopt the suggestions from Percival and Gregory regarding the Respository Pattern and Django: [Appendix D: Repository and Unit of Work Patterns with Django](https://www.cosmicpython.com/book/appendix_django.html)
 2. Replace the CLI web-based REST API using the Django REST Framework
-3. Improve architecture:
+3. Use [DRF's testing facilities](https://www.django-rest-framework.org/api-guide/testing/#api-test-cases)
+4. Add a separate Domain Model is needed and explore the pros and cons of this: [Appendix D: Repository and Unit of Work Patterns with Django](https://www.cosmicpython.com/book/appendix_django.html)
+5. Improve architecture:
     1. SOLID
     2. Repository Pattern and Unit of Work (understand how the Django ORM is really doing this)
-    3. Dependency injection
-4. Introduce a message bus to augment event-driven architecture.
-5. Determine whether a separate Domain Model is needed (pros and cons)
+    3. Dependency injection - [A good overview](https://thinhdanggroup.github.io/python-dependency-injection/), [DI with specific Flask and Django examples](https://snyk.io/blog/dependency-injection-python/), and a [Comprehensive Python Dependency Injection Framework](https://python-dependency-injector.ets-labs.org/)
+6. Introduce a message bus to augment event-driven architecture. 
+    1. We'll use Celery for this purpose: [Django and Celery](https://docs.celeryq.dev/en/stable/django/first-steps-with-django.html)
+
 
 
 ## Refactoring Notes relative to APP
