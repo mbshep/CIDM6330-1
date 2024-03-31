@@ -13,4 +13,5 @@ urlpatterns = [
     path("", include(router.urls)),    
 ]
 
+# add the router's URLs to the urlpatterns
 urlpatterns += router.urls

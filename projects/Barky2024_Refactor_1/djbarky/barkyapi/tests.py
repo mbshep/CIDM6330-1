@@ -1,8 +1,25 @@
 from django.test import TestCase
+from django.urls import reverse
+from rest_framework import status
+from rest_framework.test import APIRequestFactory, APITestCase
+
+from .models import Bookmark
 
 # Create your tests here.
 # test plan
 # 1. create a bookmark
+class BookmarkTests(APITestCase):
+    def test_create_bookmark(self):
+        """
+        Ensure we can create a new bookmark object.
+        """
+        url = reverse("bookmarks")
+        data = {"title": "Django REST framework", "url": "https://www.django-rest-framework.org/"}
+        response = self.client.post(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Bookmark.objects.count(), 1)
+        self.assertEqual(Bookmark.objects.get().title, "Django REST framework") 
+
 # 2. retrieve a bookmark
 # 3. delete a bookmark
 # 4. list bookmarks

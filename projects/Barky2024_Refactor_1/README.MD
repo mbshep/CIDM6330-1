@@ -60,6 +60,8 @@ class Bookmark(models.Model):
 
 [Quickstart](https://www.django-rest-framework.org/tutorial/quickstart/)
 
+For comparitive convenience, I will merge the **snippets** project with Barky for the refactor.
+
 ## Barky Refactoring Roadmap
 Dane Hillard's code focused on a command-line interface, but we will systematically refactor that code, across a series of branches, to do the following:
 
