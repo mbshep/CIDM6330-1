@@ -19,7 +19,7 @@ class BookmarkTests(APITestCase):
             url="https://awesomedjango.org/",
             notes="Best place on the web for Django.",
         )
-        print(f"bookmark id: {self.bookmark.id}")
+        # print(f"bookmark id: {self.bookmark.id}")
 
         # the simple router provides the name 'bookmark-list' for the URL pattern: https://www.django-rest-framework.org/api-guide/routers/#simplerouter
         self.list_url = reverse("barkyapi:bookmark-list")
