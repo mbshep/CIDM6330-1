@@ -4,8 +4,6 @@ Barky is inspired by Dane Hillard's (https://github.com/daneah/practices-of-the-
 
 Let's look at the elements in this list more carefully to guide what we'll do in this firs refactor:
 
-
-
 * Abstraction - The ability to design for extension by separating the generic from the concrete.
 * Extensibility - The ability to design for future expansion or redefinition
 * Inheritance - The ability for code to evolve through extension and obscuration
@@ -62,14 +60,34 @@ class Bookmark(models.Model):
 
 [Quickstart](https://www.django-rest-framework.org/tutorial/quickstart/)
 
+For comparitive convenience, I will merge the **snippets** project with Barky for the refactor.
+
 ## Barky Refactoring Roadmap
 Dane Hillard's code focused on a command-line interface, but we will systematically refactor that code, across a series of branches, to do the following:
 
 1. Replace the custom data handling (the DatabaseManager module) with the [Django O/RM](https://docs.djangoproject.com/en/5.0/topics/db/queries/)
-    1. Replace the existing DatabaseManager with a combination of the repository pattern and the Django ORM.
-    1. Complete the implicit and explicit promises of the existing Data API 
-2. Replace the CLI web-based REST API using the Django REST Framework
-3. Improve architecture:
-    1. SOLID
-    2. Repository Pattern and Unit of Work (understand how the Django ORM is really doing this)
-    3. Dependency injection
+    1. Replace the existing DatabaseManager with the Django ORM.
+    2. Replace the CLI web-based REST API using the Django REST Framework.
+    3. SOLID
+    4. Use [DRF's testing facilities](https://www.django-rest-framework.org/api-guide/testing/#api-test-cases)
+2. Adopt the suggestions from Percival and Gregory regarding the Unit of Work and Respository Pattern and Django: [Appendix D: Repository and Unit of Work Patterns with Django](https://www.cosmicpython.com/book/appendix_django.html)
+    1. Add a separate Domain Model and explore the pros and cons of this: [Appendix D: Repository and Unit of Work Patterns with Django](https://www.cosmicpython.com/book/appendix_django.html)
+3. Introduce messaging using Celery with Django.  This will serve as a message bus to augment event-driven architecture.
+    1. [Django is well supported using Celery](https://docs.celeryq.dev/en/stable/django/first-steps-with-django.html) as an asynchronous message/task queue.
+    2. Reintroduce the [Command pattern](https://refactoring.guru/design-patterns/command) as a means to encapsule the transactional intent of messages passed within Celery.
+4. Improve architecture:
+    1. [CQRS in general](https://douwevandermeij.medium.com/the-repository-pattern-via-cqrs-with-python-django-elasticsearch-cb38437721d3) and in [Django](https://django-cqrs.readthedocs.io/en/latest/)
+    2. Dependency injection - [A good overview](https://thinhdanggroup.github.io/python-dependency-injection/), [DI with specific Flask and Django examples](https://snyk.io/blog/dependency-injection-python/), and a [Comprehensive Python Dependency Injection Framework](https://python-dependency-injector.ets-labs.org/)
+
+
+
+## Refactor to Assignments Map
+
+1. Refactor 1 (DRF, ORM, and Repository Pattern): Assignment 5 
+2. Refactor 2 (UoW): Assignment 6
+3. Refactor 3 (Celery/Messages and the Return of the Command): Assignment 7
+4. Refactor 4 (CQRS and DI/Bootstrapping): Assignment 8
+
+## Refactoring Notes relative to APP
+
+1. The [Command](https://refactoring.guru/design-patterns/command) pattern and Barky: Whereas Barky uses the `Command` design pattern, the Django Rest Framework's [ViewSet](https://www.django-rest-framework.org/api-guide/viewsets/) structure as a controller in the [Model View Controller](https://www.askpython.com/django/django-mvt-architecture) sense.  As such, the objective of the Command pattern - to achieve a separation of concerns such that all pathways to effect a state change in the application use the same facility - is achieved with the ViewSet acting as a controller.  A Django app's views module works with DRF's ViewSet to handle the same thing.  As such, we no longer require the Command module from Barky.
