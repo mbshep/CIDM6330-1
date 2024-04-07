@@ -20,6 +20,7 @@ This repository is an extension of Dane's example to also include testing.  This
 - considering the [Appendix D](https://www.cosmicpython.com/book/appendix_django.html) application structure from P&G.
     - this utilizes the app structure form Appendix B to have `barky` (allocation for P&G) live alongside the Django app
     - it is not 100% certain that we'd completely live with this architecture - we might just collapase back into Django's folder/project strcuture.
+- **NOTE**: we are NOT using Docker despite P&G using it (and many other Django and Python books/tutorials).  Docker is just an extra layer that I chose not to deal with as our virtual environment will be sufficient.
 
 # Layered Architecture
 
