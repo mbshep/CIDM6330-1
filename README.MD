@@ -1,7 +1,7 @@
 # CIDM6330 Spring 2024
 This repository will contain all supplemental materials and code for CIDM6330 for the Spring 2024 semester.
 
-# APP Code CIDM 6330 Spring 2024
+## APP Code CIDM 6330 Spring 2024
 [Harry Percival and Bob Gregory's Code Repository for the Book](https://github.com/cosmicpython/code.git)
 While the Percival and Gregory Book is older now, it has good concepts in it and can be reviewed for free at [Cosmic Python](https://www.cosmicpython.com/).
 
