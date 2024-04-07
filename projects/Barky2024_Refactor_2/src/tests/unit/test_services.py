@@ -13,11 +13,7 @@ from barky.domain.model import Bookmark
 
 loc = Path(__file__).parent.parent.parent / "djbarky"
 
-# print(f"loc: {loc}")
-
-sys.path.append(
-    os.path.join(os.path.dirname(__file__), f"{loc}")
-)
+sys.path.append(os.path.join(os.path.dirname(__file__), f"{loc}"))
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "djbarky.settings")
 
@@ -28,14 +24,12 @@ from django.apps import AppConfig
 
 
 class TestCaseRepository(unittest.TestCase):
-
     def tearDown(self) -> None:
         pass
 
     def setUp(self) -> None:
         # must be run first
         django.setup()
-
 
     def test_repository_list(self):
         # from barky.adapters import repository
@@ -55,7 +49,7 @@ class TestCaseRepository(unittest.TestCase):
             bm = apps.get_model("barkyapi", "Bookmark")
 
             # get rid of tests
-            bm.objects.all().delete()               
+            bm.objects.all().delete()
 
             # create some test data
             bm.objects.create(
@@ -63,16 +57,16 @@ class TestCaseRepository(unittest.TestCase):
                 title="Test Title",
                 url="http://test.com",
                 notes="Test notes",
-                date_added="2021-01-01",        
+                date_added="2021-01-01",
             )
             bm.objects.create(
                 id=2,
                 title="Test Title 2",
                 url="http://test2 .com",
                 notes="Test notes 2",
-                date_added="2021-01-02",        
+                date_added="2021-01-02",
             )
-            print("Bookmarks: ", bm.objects.all())
+            # print("Bookmarks: ", bm.objects.all())
 
             # test that two records were entered
             self.assertEqual(bm.objects.all().count(), 2)
@@ -81,8 +75,7 @@ class TestCaseRepository(unittest.TestCase):
             self.assertEqual(bm.objects.first().id, 1)
 
             # get rid of tests
-            bm.objects.all().delete()        
-        
+            bm.objects.all().delete()
 
     def test_repository_create(self):
         pass
