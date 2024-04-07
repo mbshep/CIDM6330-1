@@ -32,7 +32,6 @@ The following can be added to a 'settings.json' file to accompany your project:
 ## PyPi Packages
 PyPi packages used:
 * setuptools
-* pytest
 * coverage
 
 ## Percival's First Book on TDD
