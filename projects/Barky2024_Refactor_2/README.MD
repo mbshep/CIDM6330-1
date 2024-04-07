@@ -23,6 +23,7 @@ This repository is an extension of Dane's example to also include testing.  This
 - **NOTE**: we are NOT using Docker despite P&G using it (and many other Django and Python books/tutorials).  Docker is just an extra layer that I chose not to deal with as our virtual environment will be sufficient.
 - With this refactor's architecture, we could use the Django project directly OR the barky infrastructure as barky has been refactored to be available for other implementation strategies beyond just Django.
     - P&G presume the use of [pytest](https://docs.pytest.org/en/8.0.x/), but we'll stick to the built-in [unittest](https://docs.python.org/3/library/unittest.html) that comes with Python to remain consistent with Django.  So, new tests will be included to only test 'barky' rather than Django.  Thus, the Django parts will continue self-contain its tests.
+- **CAUTION**: the django parts are NOT launched automatially and need to be manually launched in thie refactor.  So you make sure you use one terminal to launch the django app so that another can be used to run tests in `barky`
 
 # Layered Architecture
 
