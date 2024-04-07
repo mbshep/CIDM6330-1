@@ -119,3 +119,5 @@ Dane Hillard's code focused on a command-line interface, but we will systematica
 - [SO | How to call django.setup() in console_script?](https://stackoverflow.com/questions/39704298/how-to-call-django-setup-in-console-script) - some useful examples of how to use some of the built-in methods.
 - [Django Docs | How applications are loaded](https://docs.djangoproject.com/en/5.0/ref/applications/#how-applications-are-loaded) - working with `Django.setup()`, settings, and apps.
 - The [unittest - unit testing framework](https://docs.python.org/3/library/unittest.html#) - built into Python.
+- [Ivan Zakrevsky|About my experience of using Django Framework](https://emacsway.github.io/en/django-framework/) - good review of the Django experience with attention to how Django does not give us much room for the [Repository](https://emacsway.github.io/en/django-framework/#active-record) and [UoW](https://emacsway.github.io/en/django-framework/#transactional-consistency-of-data) patterns.
+
