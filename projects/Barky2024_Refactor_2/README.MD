@@ -1,5 +1,4 @@
 # Barky Refactor 2
-
 The major difference in this refactor is the inclusion of a few key concepts which are explored in depth in P&G:
 - **Repository**: by abstracting state change operations on the entities within the domain, we can replace/insert any number of data persistence strategies.
     - P&G Readings: Chapters 2-5
@@ -9,7 +8,6 @@ The major difference in this refactor is the inclusion of a few key concepts whi
 - Use of `unittest` rather than `pytest`.
 
 ## New to Refactor 2
-
 - Considers the Project Stucture Template from P&G from [Appendix B](https://www.cosmicpython.com/book/appendix_project_structure.html)
     - Key items here are the use of Python's [setuptools](https://setuptools.pypa.io/en/latest/setuptools.html) to make the entire application installable.  This makes references within the application easier
 - Considers the [Appendix D](https://www.cosmicpython.com/book/appendix_django.html) application structure from P&G.
@@ -38,14 +36,11 @@ Dane Hillard's code focused on a command-line interface, but we will systematica
     2. Dependency injection - [A good overview](https://thinhdanggroup.github.io/python-dependency-injection/), [DI with specific Flask and Django examples](https://snyk.io/blog/dependency-injection-python/), and a [Comprehensive Python Dependency Injection Framework](https://python-dependency-injector.ets-labs.org/)
 
 
-
 ## Refactor to Assignments Map
-
 1. Refactor 1 (DRF and ORM): Assignment 5 
 2. Refactor 2 (Repository Pattern and UoW ): Assignment 6
 3. Refactor 3 (Celery/Messages and the Return of the Command): Assignment 7
 4. Refactor 4 (CQRS and DI/Bootstrapping): Assignment 8
 
 ## Refactoring Notes relative to APP
-
 1. The [Command](https://refactoring.guru/design-patterns/command) pattern and Barky: Whereas Barky uses the `Command` design pattern, the Django Rest Framework's [ViewSet](https://www.django-rest-framework.org/api-guide/viewsets/) structure as a controller in the [Model View Controller](https://www.askpython.com/django/django-mvt-architecture) sense.  As such, the objective of the Command pattern - to achieve a separation of concerns such that all pathways to effect a state change in the application use the same facility - is achieved with the ViewSet acting as a controller.  A Django app's views module works with DRF's ViewSet to handle the same thing.  As such, we no longer require the Command module from Barky.
