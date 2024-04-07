@@ -17,14 +17,14 @@ class AbstractRepository(abc.ABC):
     def add(self, bookmark: model.Bookmark):
         self.bookmarks_set.add(bookmark)
 
-    def get(self, ref) -> model.Bookmark:
-        bookmark = self._get(ref)
+    def get(self, id) -> model.Bookmark:
+        bookmark = self._get(id)
         if bookmark:
             self.bookmarks_set.add(bookmark)
         return bookmark
 
     @abc.abstractmethod
-    def _get(self, reference):
+    def _get(self, id):
         raise NotImplementedError
 
 
@@ -37,14 +37,16 @@ class DjangoRepository(AbstractRepository):
         super().add(bookmark)
         self.update(bookmark)
 
-    def update(self, batch):
-        django_models.Bookmark.update_from_domain(batch)
+    def update(self, bookmark):
+        django_models.Bookmark.update_from_domain(bookmark)
 
-    def _get(self, ref):
-        return django_models.Bookmark.objects.filter(reference=ref).first().to_domain()
+    def _get(self, id):
+        return django_models.Bookmark.objects.filter(id=id).first().to_domain()
 
     def list(self):
-        return [b.to_domain() for b in django_models.Bookmark.objects.all()]
+        return [
+            bookmark.to_domain() for bookmark in django_models.Bookmark.objects.all()
+        ]
 
 
 class DjangoApiRepository(AbstractRepository):
@@ -58,18 +60,18 @@ class DjangoApiRepository(AbstractRepository):
         # self.update(bookmark)
         pass
 
-    def update(self, batch):
-        # django_models.Bookmark.update_from_domain(batch)
+    def update(self, bookmark):
+        # django_models.Bookmark.update_from_domain(bookmark)
         pass
 
-    def _get(self, ref):
+    def _get(self, id):
         # return (
-        #     django_models.Bookmark.objects.filter(reference=ref)
+        #     django_models.Bookmark.objects.filter(id=id)
         #     .first()
         #     .to_domain()
         # )
         pass
 
     def list(self):
-        # return [b.to_domain() for b in django_models.Bookmark.objects.all()]
+        # return [bookmark.to_domain() for bookmark in django_models.Bookmark.objects.all()]
         pass

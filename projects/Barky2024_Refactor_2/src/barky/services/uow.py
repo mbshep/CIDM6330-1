@@ -1,3 +1,4 @@
+from __future__ import annotations
 import abc
 from django.db import transaction
 from barky.adapters import repository
