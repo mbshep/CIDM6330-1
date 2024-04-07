@@ -81,6 +81,10 @@ There are some articles and resources that demonstrate implementing the Reposito
 - [Luke Plant | Django Views - The Right Way](https://spookylukey.github.io/django-views-the-right-way/index.html) In the end, any service layer is activated/engaged from views: [there are many practices to consider when it comes to handling view design](https://spookylukey.github.io/django-views-the-right-way/index.html).
 - [Douwe va der Meij | The repository pattern via CQRS with Python/Django/Elasticsearch](https://douwevandermeij.medium.com/the-repository-pattern-via-cqrs-with-python-django-elasticsearch-cb38437721d3) - a full treatment that looks forward.
 
+### Unit of Work and Django
+- [sepehr akbarzadeh | Revolutionize Your Data Handling with the Unit of Work Design Pattern in Python and Django](https://python.plainenglish.io/revolutionize-your-data-handling-with-the-unit-of-work-design-pattern-in-python-and-django-14895d147cdc) - Good overview article.
+- [Manuel Kanetscheider | A Python Implementation of the Unit of Work and Repository Design Pattern using SQLModel](https://dev.to/manukanne/a-python-implementation-of-the-unit-of-work-and-repository-design-pattern-using-sqlmodel-3mb5) - also a good overview.
+
 ## Barky Refactoring Roadmap
 Dane Hillard's code focused on a command-line interface, but we will systematically refactor that code, across a series of branches, to do the following:
 
