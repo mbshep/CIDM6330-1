@@ -8,11 +8,11 @@ class Bookmark:
     """
 
     def __init__(self, id, title, url, notes, date_added):
-        self.id = None
-        self.title = None
-        self.url = None
-        self.notes = None
-        self.date_added = None
+        self.id = id
+        self.title = title
+        self.url = url
+        self.notes = notes
+        self.date_added = date_added
 
         def __str__(self):
             return f"{self.title}"
