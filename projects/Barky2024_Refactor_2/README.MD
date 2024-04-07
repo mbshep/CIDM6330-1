@@ -29,7 +29,16 @@ The major difference in this refactor is the inclusion of a few key concepts whi
 5. Unit tests are run this way: `python -m unittest -v test_services.TestCaseRepository.test_repository_list`
 
 ### We Won't Continue Down this Path
-We will not likely put the effort into the CRUD (repository pattern) and transaction (Unit Of Work) facilities of the architectural patterns from chapters 1 to 7 with Django.  This is because we are fundamentally fighting Django to get these done.  This is probably why P&G chose Flask/SQLAlchemy as they are more loosely coupled which makes it easier to include them as part of an overall architecture.
+We will not likely put the effort into the CRUD (repository pattern) and transaction (Unit Of Work) facilities of the architectural patterns from chapters 1 to 7 with Django as features or facilities that exist **OUTSIDE** of the Django project framework.  This is because we are fundamentally fighting Django to get these done.  This is probably why P&G chose Flask/SQLAlchemy as they are more loosely coupled which makes it easier to include them as part of an overall architecture.
+
+However, we can more readily and easily implement these within the Django project structure.  While this is indeed feasible, it lessens the impact and advantage of the pattern as we are not truly independent of Django.  There are valid workarounds, but they stray back into the territory of fighting the intrinsic design of the Django Framework.
+
+#### Repository Pattern and Django
+
+There are some articles and resources that demonstrate implementing the Repository Pattern in Django (or argue against them):
+- **P&G**: [Appendix D](https://www.cosmicpython.com/book/appendix_django.html) has quite a bit of valuable discussion on the the topic in addition to the sample code given.
+- [Arjun Adhikari | Python is Love](https://pythonislove.com/repository-design-pattern-in-django) provides a nice walkthrough with some useful code examples.
+- [James Bennet | Against service layers in Django](https://www.b-list.org/weblog/2020/mar/16/no-service/) - the argument against bothing with service layers such as the repository and UoW patterns.  Don't forget, Django is the "monolith."
 
 ## Barky Refactoring Roadmap
 Dane Hillard's code focused on a command-line interface, but we will systematically refactor that code, across a series of branches, to do the following:
