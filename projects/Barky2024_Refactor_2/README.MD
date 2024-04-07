@@ -69,3 +69,10 @@ Dane Hillard's code focused on a command-line interface, but we will systematica
 
 ## Refactoring Notes relative to APP
 1. The [Command](https://refactoring.guru/design-patterns/command) pattern and Barky: Whereas Barky uses the `Command` design pattern, the Django Rest Framework's [ViewSet](https://www.django-rest-framework.org/api-guide/viewsets/) structure as a controller in the [Model View Controller](https://www.askpython.com/django/django-mvt-architecture) sense.  As such, the objective of the Command pattern - to achieve a separation of concerns such that all pathways to effect a state change in the application use the same facility - is achieved with the ViewSet acting as a controller.  A Django app's views module works with DRF's ViewSet to handle the same thing.  As such, we no longer require the Command module from Barky.
+
+### Helpful Articles for this Refactor:
+- [Gabriel Saldaña | How to use Django models in external Python scripts] - Vital if we are going to leverage the Django ORM outside of Django - very [kludgey](https://en.wikipedia.org/wiki/Kludge), so not a long-term strategy.
+[Adam Green | aShould You Use Python pathlib or os?](https://betterprogramming.pub/should-you-be-using-pathlib-6f3a0fddec7e) - good for mapping between both approaches to working with path information.
+- [SO | How to call django.setup() in console_script?](https://stackoverflow.com/questions/39704298/how-to-call-django-setup-in-console-script)
+- [Django Docs | https://docs.djangoproject.com/en/5.0/ref/applications/#how-applications-are-loaded] - working with `Django.setup()`, settings, and apps.
+- The [unittest - unit testing framework](https://docs.python.org/3/library/unittest.html#) - built into Python.
