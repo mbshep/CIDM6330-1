@@ -8,10 +8,11 @@ While the Percival and Gregory Book is older now, it has good concepts in it and
 `git clone --branch chapter_01_domain_model https://github.com/cosmicpython/code.git`
 
 # Components of this Repo:
-* [Acme](acme/README.MD) - Acme crew scheduling example. (updated in 2024)
-* [APP](APP/README.MD) - Arhictecture Patterns in Python - Percival and Gregory
-* [APP2023](APP/README.MD) - Arhictecture Patterns in Python - Percival and Gregory with some adjustments
-* [Barky](Barky/README.MD) - a derivative of [Dane Hillard's Bark example](https://github.com/daneah/practices-of-the-python-pro), which has been transformed to follow along with Percival and Gregory's material. This is now optional, but still a useful guide.
+* [Acme](projects/acme/README.MD) - Acme crew scheduling example. (updated in 2024)
+* [APP](projects/APP/README.MD) - Arhictecture Patterns in Python - Percival and Gregory
+* [APP2023](projects/APP2023/README.MD) - Arhictecture Patterns in Python - Percival and Gregory with some adjustments
+* [Barky](projects/Barky/README.MD) - a derivative of [Dane Hillard's Bark example](https://github.com/daneah/practices-of-the-python-pro), which has been transformed to follow along with Percival and Gregory's material. This is now optional, but still a useful guide.
+* [Barky2024 and Refactors](projects/Barky2024/)
 * [Docs](docs/README.MD) - Course readings are here.
 * [Testing](Testing/README.MD) - Separate materials on testing in Python.
 * [PyTesting](Testing/PyTesting/README.MD) - pytest basics. We will not use PyTest, but it is very popular, so I didn't want to skip it.
