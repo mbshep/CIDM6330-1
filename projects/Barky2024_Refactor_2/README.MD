@@ -1,9 +1,9 @@
 # Barky Refactor 2
 
 The major difference in this refactor is the inclusion of a few key concepts which are explored in depth in P&G:
-- Repository: by abstracting state change operations on the entities within the domain, we can replace/insert any number of data persistence strategies.
+- **Repository**: by abstracting state change operations on the entities within the domain, we can replace/insert any number of data persistence strategies.
     - P&G Readings: Chapters 2-5
-- Unit of Work: The unit of work is a means of encapsulating and describing transation-like operations with your system such that any number of needed operations can be coordinated and completed that, collectively constitude an whole operation's completion.  In effect, this is more-or-less the equivalent of a database transaction.
+- **Unit of Work**: The unit of work is a means of encapsulating and describing transation-like operations with your system such that any number of needed operations can be coordinated and completed that, collectively constitude an whole operation's completion.  In effect, this is more-or-less the equivalent of a database transaction.
     - P&G Readings: Chapters 6 and 7.
 - Project structure with setuptools
 - Use of `unittest` rather than `pytest`.
