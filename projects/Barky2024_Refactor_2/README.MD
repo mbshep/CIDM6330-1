@@ -120,4 +120,4 @@ Dane Hillard's code focused on a command-line interface, but we will systematica
 - [Django Docs | How applications are loaded](https://docs.djangoproject.com/en/5.0/ref/applications/#how-applications-are-loaded) - working with `Django.setup()`, settings, and apps.
 - The [unittest - unit testing framework](https://docs.python.org/3/library/unittest.html#) - built into Python.
 - [Ivan Zakrevsky|About my experience of using Django Framework](https://emacsway.github.io/en/django-framework/) - good review of the Django experience with attention to how Django does not give us much room for the [Repository](https://emacsway.github.io/en/django-framework/#active-record) and [UoW](https://emacsway.github.io/en/django-framework/#transactional-consistency-of-data) patterns.
-
+- [Jordi Fierro | Clean Architecture in Django](https://medium.com/21buttons-tech/clean-architecture-in-django-d326a4ab86a9) - Very good explanation of the Clean Architecture in Django - we end up writing around the framework.
