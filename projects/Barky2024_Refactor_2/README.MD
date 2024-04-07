@@ -33,6 +33,42 @@ We will not likely put the effort into the CRUD (repository pattern) and transac
 
 However, we can more readily and easily implement these within the Django project structure.  While this is indeed feasible, it lessens the impact and advantage of the pattern as we are not truly independent of Django.  There are valid workarounds, but they stray back into the territory of fighting the intrinsic design of the Django Framework.
 
+Although potentially very easy to miss, P&G realize that they have to coerce Django to play outside of the Django project structure with their discussion in this part of Appendix D: [API: Django Views Are Adapters](https://www.cosmicpython.com/book/appendix_django.html#_api_django_views_are_adapters):
+
+```python
+os.environ["DJANGO_SETTINGS_MODULE"] = "djangoproject.django_project.settings"
+django.setup()
+
+
+@csrf_exempt
+def add_batch(request):
+    data = json.loads(request.body)
+    eta = data["eta"]
+    if eta is not None:
+        eta = datetime.fromisoformat(eta).date()
+    services.add_batch(
+        data["ref"], data["sku"], data["qty"], eta,
+        unit_of_work.DjangoUnitOfWork(),
+    )
+    return HttpResponse("OK", status=201)
+
+
+@csrf_exempt
+def allocate(request):
+    data = json.loads(request.body)
+    try:
+        batchref = services.allocate(
+            data["orderid"],
+            data["sku"],
+            data["qty"],
+            unit_of_work.DjangoUnitOfWork(),
+        )
+    except (model.OutOfStock, services.InvalidSku) as e:
+        return JsonResponse({"message": str(e)}, status=400)
+
+    return JsonResponse({"batchref": batchref}, status=201)
+```
+
 #### Repository Pattern and Django
 
 There are some articles and resources that demonstrate implementing the Repository Pattern in Django (or argue against them):
