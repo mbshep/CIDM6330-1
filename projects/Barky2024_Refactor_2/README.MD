@@ -38,7 +38,8 @@ However, we can more readily and easily implement these within the Django projec
 There are some articles and resources that demonstrate implementing the Repository Pattern in Django (or argue against them):
 - **P&G**: [Appendix D](https://www.cosmicpython.com/book/appendix_django.html) has quite a bit of valuable discussion on the the topic in addition to the sample code given.
 - [Arjun Adhikari | Python is Love](https://pythonislove.com/repository-design-pattern-in-django) provides a nice walkthrough with some useful code examples.
-- [James Bennet | Against service layers in Django](https://www.b-list.org/weblog/2020/mar/16/no-service/) - the argument against bothing with service layers such as the repository and UoW patterns.  Don't forget, Django is the "monolith."
+- [James Bennet | Against service layers in Django](https://www.b-list.org/weblog/2020/mar/16/no-service/) - the argument against bothing with service layers such as the repository and UoW patterns.  Don't forget, Django is the "monolith."  
+- [Luke Plant | Django Views - The Right Way](https://spookylukey.github.io/django-views-the-right-way/index.html) In the end, any service layer is activated/engaged from views: [there are many practices to consider when it comes to handling view design](https://spookylukey.github.io/django-views-the-right-way/index.html).
 
 ## Barky Refactoring Roadmap
 Dane Hillard's code focused on a command-line interface, but we will systematically refactor that code, across a series of branches, to do the following:
