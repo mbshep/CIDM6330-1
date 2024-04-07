@@ -10,6 +10,7 @@ from .views import BookmarkViewSet
 # Create your tests here.
 # test plan
 
+
 class BookmarkTests(APITestCase):
     def setUp(self):
         self.factory = APIRequestFactory()
@@ -85,7 +86,7 @@ class BookmarkTests(APITestCase):
             "title": "Awesomer Django",
             "url": "https://awesomedjango.org/",
             "notes": "Best place on the web for Django just got better.",
-        }        
+        }
         response = self.client.put(
             reverse("barkyapi:bookmark-detail", kwargs={"pk": self.bookmark.id}),
             data,

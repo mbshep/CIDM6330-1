@@ -4,8 +4,21 @@
 
 import unittest
 
+from barky.domain.model import Bookmark
+from barky.adapters import repository
+from barky.services.uow import DjangoUnitOfWork, DjangoApiUnitOfWork
+
 
 class TestCaseRepository(unittest.TestCase):
+    def setUp(self) -> None:
+        self.bookmark = Bookmark(
+            id=1,
+            title="Test Title",
+            url="http://test.com",
+            notes="Test notes",
+            date_added="2021-01-01",
+        )
+
     def test_repository_list(self):
         pass
 
