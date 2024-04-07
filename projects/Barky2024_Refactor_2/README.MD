@@ -71,7 +71,7 @@ def allocate(request):
 
 P&G discuss the ins and outs of Django app architecture and refer to [this post](https://forum.djangoproject.com/t/where-to-put-business-logic-in-django/282/7) on the matter of how to extend/modify Django's out-of-the-box design when/as needed.  Of course, the book's [Epilogue](https://www.cosmicpython.com/book/epilogue_1_how_to_get_there_from_here.html) is also a great read on the matter of how to balance and make sense out of the book's material.
 
-#### Repository Pattern and Django
+### Repository Pattern and Django
 
 There are some articles and resources that demonstrate implementing the Repository Pattern in Django (or argue against them):
 - **P&G**: [Appendix D](https://www.cosmicpython.com/book/appendix_django.html) has quite a bit of valuable discussion on the the topic in addition to the sample code given.
