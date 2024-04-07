@@ -84,6 +84,7 @@ There are some articles and resources that demonstrate implementing the Reposito
 ### Unit of Work and Django
 - [sepehr akbarzadeh | Revolutionize Your Data Handling with the Unit of Work Design Pattern in Python and Django](https://python.plainenglish.io/revolutionize-your-data-handling-with-the-unit-of-work-design-pattern-in-python-and-django-14895d147cdc) - Good overview article.
 - [Manuel Kanetscheider | A Python Implementation of the Unit of Work and Repository Design Pattern using SQLModel](https://dev.to/manukanne/a-python-implementation-of-the-unit-of-work-and-repository-design-pattern-using-sqlmodel-3mb5) - also a good overview.
+- [Transactions in Django](https://docs.djangoproject.com/en/5.0/topics/db/transactions/) - the Unit of Work is an abstraction for transaction management, which Django does natively.
 
 ## Barky Refactoring Roadmap
 Dane Hillard's code focused on a command-line interface, but we will systematically refactor that code, across a series of branches, to do the following:
