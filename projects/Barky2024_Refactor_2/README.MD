@@ -18,6 +18,19 @@ The major difference in this refactor is the inclusion of a few key concepts whi
 - With this refactor's architecture, we could use the Django project directly OR the barky infrastructure as barky has been refactored to be available for other implementation strategies beyond just Django.
     - P&G presume the use of [pytest](https://docs.pytest.org/en/8.0.x/), but we'll stick to the built-in [unittest](https://docs.python.org/3/library/unittest.html) that comes with Python to remain consistent with Django.  So, new tests will be included to only test 'barky' rather than Django.  Thus, the Django parts will continue self-contain its tests.
 
+## Key steps for this refactor
+
+**KEY NOTE**: In keeping with P&G, we've moved the code to a `src/` directory.  However, I've not placed the `tests/` directly outside of source.  This has to do with the nature of Django and its clear that P&G warn us in [Appendix D](https://www.cosmicpython.com/book/appendix_django.html) that we will indeed be fighting Django to make **some** aspects of their architecture work. This is not unlike adopting a major [CRM](https://en.wikipedia.org/wiki/Customer_relationship_management) (such as [Salesforce](https://en.wikipedia.org/wiki/Salesforce)) or [ERP](https://en.wikipedia.org/wiki/Enterprise_resource_planning) platform and then trying to fit it alongside other elements of your enterprise architecture - it can be done, but it has to be done in conjunction with the behaviors of that major platform.
+
+1. make sure you configure the `setup.py` file, which is used by [setuptools](https://pypi.org/project/setuptools/).
+2. make sure you "install" the package from the directory just above `src/` using the following command: `pip install -e src/` 
+3. take note of what I do in the code to make Django work outside of its own environment. See: [Django Settings](https://docs.djangoproject.com/en/5.0/topics/settings/).  
+4. The path/location information is hard-wired, so it might have to be changed on your machine.
+5. Unit tests are run this way: `python -m unittest -v test_services.TestCaseRepository.test_repository_list`
+
+### We Won't Continue Down this Path
+We will not likely put the effort into the CRUD (repository pattern) and transaction (Unit Of Work) facilities of the architectural patterns from chapters 1 to 7 with Django.  This is because we are fundamentally fighting Django to get these done.  This is probably why P&G chose Flask/SQLAlchemy as they are more loosely coupled which makes it easier to include them as part of an overall architecture.
+
 ## Barky Refactoring Roadmap
 Dane Hillard's code focused on a command-line interface, but we will systematically refactor that code, across a series of branches, to do the following:
 
