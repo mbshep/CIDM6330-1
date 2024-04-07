@@ -1,4 +1,4 @@
-# Barky Refactor 1
+# Barky Refactor 2
 
 Barky is inspired by Dane Hillard's (https://github.com/daneah/practices-of-the-python-pro) Bark example of an application that demonstrates some basic software engineering principles such as:
 
@@ -12,6 +12,14 @@ Let's look at the elements in this list more carefully to guide what we'll do in
 * Separation of concerns - Organizing code around broad or categorical focus.
 
 This repository is an extension of Dane's example to also include testing.  This is all inspired by Dane's [Practices fo the Python Pro](https://www.manning.com/books/practices-of-the-python-pro) book, which I have found to be a great read.
+
+## New to Refactor 2
+
+- considering the Project Stucture Template from P&G from [Appendix B](https://www.cosmicpython.com/book/appendix_project_structure.html)
+    - Key items here are the use of setuptools to make the entire application installable.  This makes references within the application easier
+- considering the [Appendix D](https://www.cosmicpython.com/book/appendix_django.html) application structure from P&G.
+    - this utilizes the app structure form Appendix B to have `barky` (allocation for P&G) live alongside the Django app
+    - it is not 100% certain that we'd completely live with this architecture - we might just collapase back into Django's folder/project strcuture.
 
 # Layered Architecture
 
