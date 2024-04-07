@@ -1,17 +1,12 @@
 # Barky Refactor 2
 
-Barky is inspired by Dane Hillard's (https://github.com/daneah/practices-of-the-python-pro) Bark example of an application that demonstrates some basic software engineering principles such as:
-
-Let's look at the elements in this list more carefully to guide what we'll do in this firs refactor:
-
-* Abstraction - The ability to design for extension by separating the generic from the concrete.
-* Extensibility - The ability to design for future expansion or redefinition
-* Inheritance - The ability for code to evolve through extension and obscuration
-* Loose Coupling and Cohesion - Code belongs together without inhibiting the ability for that code to independently evolve.
-* Refactoring - Changing/Improving code structure without changing code function.
-* Separation of concerns - Organizing code around broad or categorical focus.
-
-This repository is an extension of Dane's example to also include testing.  This is all inspired by Dane's [Practices fo the Python Pro](https://www.manning.com/books/practices-of-the-python-pro) book, which I have found to be a great read.
+The major difference in this refactor is the inclusion of a few key concepts which are explored in depth in P&G:
+- Repository: by abstracting state change operations on the entities within the domain, we can replace/insert any number of data persistence strategies.
+    - P&G Readings: Chapters 2-5
+- Unit of Work: The unit of work is a means of encapsulating and describing transation-like operations with your system such that any number of needed operations can be coordinated and completed that, collectively constitude an whole operation's completion.  In effect, this is more-or-less the equivalent of a database transaction.
+    - P&G Readings: Chapters 6 and 7.
+- Project structure with setuptools
+- Use of `unittest` rather than `pytest`.
 
 ## New to Refactor 2
 
