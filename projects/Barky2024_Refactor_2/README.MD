@@ -74,5 +74,5 @@ Dane Hillard's code focused on a command-line interface, but we will systematica
 - [Gabriel Saldaña | How to use Django models in external Python scripts](https://blog.gabrielsaldana.org/using-django-models-in-external-python-scripts/) - Vital if we are going to leverage the Django ORM outside of Django - very [kludgey](https://en.wikipedia.org/wiki/Kludge), so not a long-term strategy.
 - [Adam Green | aShould You Use Python pathlib or os?](https://betterprogramming.pub/should-you-be-using-pathlib-6f3a0fddec7e) - good for mapping between both approaches to working with path information.
 - [SO | How to call django.setup() in console_script?](https://stackoverflow.com/questions/39704298/how-to-call-django-setup-in-console-script)
-- [Django Docs | https://docs.djangoproject.com/en/5.0/ref/applications/#how-applications-are-loaded] - working with `Django.setup()`, settings, and apps.
+- [Django Docs | How applications are loaded](https://docs.djangoproject.com/en/5.0/ref/applications/#how-applications-are-loaded) - working with `Django.setup()`, settings, and apps.
 - The [unittest - unit testing framework](https://docs.python.org/3/library/unittest.html#) - built into Python.
