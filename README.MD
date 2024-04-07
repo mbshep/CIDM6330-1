@@ -7,6 +7,10 @@ While the Percival and Gregory Book is older now, it has good concepts in it and
 
 `git clone --branch chapter_01_domain_model https://github.com/cosmicpython/code.git`
 
+## Course Supplemental Material on Architecture - Spring 2024
+
+The [docs](docs/README.MD) folder contains several files with supplemental and foundational knowledge for the course.
+
 # Components of this Repo:
 * [Acme](projects/acme/README.MD) - Acme crew scheduling example. (updated in 2024)
 * [APP](projects/APP/README.MD) - Arhictecture Patterns in Python - Percival and Gregory
@@ -42,6 +46,4 @@ There are four branches related to Barky that show the progression in Barky in c
 
 You can see these branches with the `git branch` command.
 
-## More on Architecture
 
-The [docs](docs/README.MD) folder contains several files with supplemental and foundational knowledge for the course.
