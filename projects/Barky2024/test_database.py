@@ -11,6 +11,7 @@ import pytest
 
 from database import DatabaseManager
 
+
 @pytest.fixture
 def database_manager() -> DatabaseManager:
     """
@@ -20,7 +21,7 @@ def database_manager() -> DatabaseManager:
     dbm = DatabaseManager(filename)
     # what is yield? https://www.guru99.com/python-yield-return-generator.html
     yield dbm
-    dbm.__del__()           # explicitly release the database manager
+    dbm.__del__()  # explicitly release the database manager
     os.remove(filename)
 
 
@@ -37,21 +38,22 @@ def test_database_manager_create_table(database_manager):
         },
     )
 
-    #assert
+    # assert
     conn = database_manager.connection
     cursor = conn.cursor()
 
-    cursor.execute(''' SELECT count(name) FROM sqlite_master WHERE type='table' AND name='bookmarks' ''')
+    cursor.execute(
+        """ SELECT count(name) FROM sqlite_master WHERE type='table' AND name='bookmarks' """
+    )
 
     assert cursor.fetchone()[0] == 1
 
-    #cleanup
+    # cleanup
     # this is probably not really needed
     database_manager.drop_table("bookmarks")
 
 
 def test_database_manager_add_bookmark(database_manager):
-
     # arrange
     database_manager.create_table(
         "bookmarks",
@@ -68,7 +70,7 @@ def test_database_manager_add_bookmark(database_manager):
         "title": "test_title",
         "url": "http://example.com",
         "notes": "test notes",
-        "date_added": datetime.utcnow().isoformat()        
+        "date_added": datetime.utcnow().isoformat(),
     }
 
     # act
@@ -77,5 +79,5 @@ def test_database_manager_add_bookmark(database_manager):
     # assert
     conn = database_manager.connection
     cursor = conn.cursor()
-    cursor.execute(''' SELECT * FROM bookmarks WHERE title='test_title' ''')    
-    assert cursor.fetchone()[0] == 1    
+    cursor.execute(""" SELECT * FROM bookmarks WHERE title='test_title' """)
+    assert cursor.fetchone()[0] == 1

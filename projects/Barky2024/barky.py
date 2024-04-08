@@ -118,7 +118,6 @@ def get_new_bookmark_info():
 
 
 def loop():
-
     clear_screen()
     # All steps for showing and selecting options
     # https://www.w3schools.com/python/python_dictionaries.asp

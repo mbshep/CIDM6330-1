@@ -49,9 +49,11 @@ def session_factory(file_sqlite_db):
 def session(session_factory):
     return session_factory
 
+
 @pytest.fixture
 def test_client(flask_api):
     return flask_api.test_client()
+
 
 @pytest.fixture
 def flask_api(session):

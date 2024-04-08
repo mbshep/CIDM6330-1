@@ -2,6 +2,7 @@
 import unittest
 from sum_thing import sum
 
+
 class TestSum(unittest.TestCase):
     def test_list_int(self):
         """
@@ -11,5 +12,6 @@ class TestSum(unittest.TestCase):
         result = sum(data)
         self.assertEqual(result, 4)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()
