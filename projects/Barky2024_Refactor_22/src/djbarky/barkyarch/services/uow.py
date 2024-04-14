@@ -1,7 +1,7 @@
 from __future__ import annotations
 import abc
 from django.db import transaction
-from barkyarch.adapters import repository
+from barkyarch_old.adapters import repository
 
 
 class AbstractUnitOfWork(abc.ABC):

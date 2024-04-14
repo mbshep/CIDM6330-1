@@ -1,7 +1,7 @@
 # pylint: disable=no-member, no-self-use
 from typing import Set
 import abc
-from barkyarch.domain import model
+from barkyarch_old.domain import model
 from djbarky.barkyapi import models as django_models
 
 

@@ -24,8 +24,8 @@ So, there are probably a few things we'll need to re-examine:
 In this refactor, we have three main choices to consider if we wan't any Django-adjacent things like the services, domain, and adapters from P&G (Django views are considered endpoints). Don't forget that [Django's MVT](https://www.geeksforgeeks.org/django-project-mvt-structure/) is itself an architectural pattern.
 
 1. _Option 1_ is to leave architecture code outside of Django folder/file structure and considering using setuptools to make it an installable package (which we left behind in refactor 2). This is fine but the actual cross-talk will still require that testing this package happens within Django.
-2. _Option 2_ is the place architecture code witin Django's structure, but this does not exonerate us from needing to ensure that Django's bootstrap/setup process still launches. We still can't test from within the module without extra hassle, so this seems like it'll be better than option 1, but that's not really the case either.
-3. _Option 3_ is that we make the repository and other architectural code a Django app itself and thus tightly coupling the presumably independent architecture to Django's itself. This option makes testing and cross-communication much easier.
+1. _Option 2_ is the place architecture code witin Django's structure, but this does not exonerate us from needing to ensure that Django's bootstrap/setup process still launches. We still can't test from within the module without extra hassle, so this seems like it'll be better than option 1, but that's not really the case either.
+1. _Option 3_ is that we make the repository and other architectural code a Django app itself and thus tightly coupling the presumably independent architecture to Django's itself. This option makes testing and cross-communication much easier.
 
 ### A fourth way
 
@@ -177,58 +177,27 @@ Ben Lopatin puts the question on whether we want "standalone" independence to se
 
 While we don't need to entirely, the means of its implementation requires that we so drastically avoid Django's monolithic nature that the exercise loses its point and meaning.
 
-### Repository Pattern and Django
-
-There are some articles and resources that demonstrate implementing the Repository Pattern in Django (or argue against them):
-
-- **P&G**: [Appendix D](https://www.cosmicpython.com/book/appendix_django.html) has quite a bit of valuable discussion on the the topic in addition to the sample code given.
-- [Arjun Adhikari | Python is Love](https://pythonislove.com/repository-design-pattern-in-django) provides a nice walkthrough with some useful code examples.
-- [Roy Manigley | Django Repository Pattern](https://github.com/roymanigley/django-repository-pattern) - this is one of the more straight-foward approaches you can use.
-- [James Bennet | Against service layers in Django](https://www.b-list.org/weblog/2020/mar/16/no-service/) - the argument against bothing with service layers such as the repository and UoW patterns. Don't forget, Django is the "monolith."
-- [Luke Plant | Django Views - The Right Way](https://spookylukey.github.io/django-views-the-right-way/index.html) In the end, any service layer is activated/engaged from views: [there are many practices to consider when it comes to handling view design](https://spookylukey.github.io/django-views-the-right-way/index.html).
-- [Douwe va der Meij | The repository pattern via CQRS with Python/Django/Elasticsearch](https://douwevandermeij.medium.com/the-repository-pattern-via-cqrs-with-python-django-elasticsearch-cb38437721d3) - a full treatment that looks forward.
-
-### Unit of Work and Django
-
-- [sepehr akbarzadeh | Revolutionize Your Data Handling with the Unit of Work Design Pattern in Python and Django](https://python.plainenglish.io/revolutionize-your-data-handling-with-the-unit-of-work-design-pattern-in-python-and-django-14895d147cdc) - Good overview article.
-- [Manuel Kanetscheider | A Python Implementation of the Unit of Work and Repository Design Pattern using SQLModel](https://dev.to/manukanne/a-python-implementation-of-the-unit-of-work-and-repository-design-pattern-using-sqlmodel-3mb5) - also a good overview.
-- [Transactions in Django](https://docs.djangoproject.com/en/5.0/topics/db/transactions/) - the Unit of Work is an abstraction for transaction management, which Django does natively.
-
 ## Barky Refactoring Roadmap
 
 Dane Hillard's code focused on a command-line interface, but we will systematically refactor that code, across a series of branches, to do the following:
 
 1. Replace the custom data handling (the DatabaseManager module) with the [Django O/RM](https://docs.djangoproject.com/en/5.0/topics/db/queries/)
    1. Replace the existing DatabaseManager with the Django ORM.
-   2. Replace the CLI web-based REST API using the Django REST Framework.
-   3. SOLID
-   4. Use [DRF's testing facilities](https://www.django-rest-framework.org/api-guide/testing/#api-test-cases)
-2. Adopt the suggestions from Percival and Gregory regarding the Unit of Work and Respository Pattern and Django: [Appendix D: Repository and Unit of Work Patterns with Django](https://www.cosmicpython.com/book/appendix_django.html)
+   1. Replace the CLI web-based REST API using the Django REST Framework.
+   1. SOLID
+   1. Use [DRF's testing facilities](https://www.django-rest-framework.org/api-guide/testing/#api-test-cases)
+1. Adopt the suggestions from Percival and Gregory regarding the Unit of Work and Respository Pattern and Django: [Appendix D: Repository and Unit of Work Patterns with Django](https://www.cosmicpython.com/book/appendix_django.html)
    1. Add a separate Domain Model and explore the pros and cons of this: [Appendix D: Repository and Unit of Work Patterns with Django](https://www.cosmicpython.com/book/appendix_django.html)
-3. Introduce messaging using Celery with Django. This will serve as a message bus to augment event-driven architecture.
+1. Introduce messaging using Celery with Django. This will serve as a message bus to augment event-driven architecture.
    1. [Django is well supported using Celery](https://docs.celeryq.dev/en/stable/django/first-steps-with-django.html) as an asynchronous message/task queue.
-   2. Reintroduce the [Command pattern](https://refactoring.guru/design-patterns/command) as a means to encapsule the transactional intent of messages passed within Celery.
-4. Improve architecture:
+   1. Reintroduce the [Command pattern](https://refactoring.guru/design-patterns/command) as a means to encapsule the transactional intent of messages passed within Celery.
+1. Improve architecture:
    1. [CQRS in general](https://douwevandermeij.medium.com/the-repository-pattern-via-cqrs-with-python-django-elasticsearch-cb38437721d3) and in [Django](https://django-cqrs.readthedocs.io/en/latest/)
-   2. Dependency injection - [A good overview](https://thinhdanggroup.github.io/python-dependency-injection/), [DI with specific Flask and Django examples](https://snyk.io/blog/dependency-injection-python/), and a [Comprehensive Python Dependency Injection Framework](https://python-dependency-injector.ets-labs.org/)
+   1. Dependency injection - [A good overview](https://thinhdanggroup.github.io/python-dependency-injection/), [DI with specific Flask and Django examples](https://snyk.io/blog/dependency-injection-python/), and a [Comprehensive Python Dependency Injection Framework](https://python-dependency-injector.ets-labs.org/)
 
 ## Refactor to Assignments Map
 
 1. Refactor 1 (DRF and ORM): Assignment 5
-2. Refactor 2 (Repository Pattern and UoW ): Assignment 6
-3. Refactor 3 (Celery/Messages and the Return of the Command): Assignment 7
-4. Refactor 4 (CQRS and DI/Bootstrapping): Assignment 8
-
-## Refactoring Notes relative to APP
-
-1. The [Command](https://refactoring.guru/design-patterns/command) pattern and Barky: Whereas Barky uses the `Command` design pattern, the Django Rest Framework's [ViewSet](https://www.django-rest-framework.org/api-guide/viewsets/) structure as a controller in the [Model View Controller](https://www.askpython.com/django/django-mvt-architecture) sense. As such, the objective of the Command pattern - to achieve a separation of concerns such that all pathways to effect a state change in the application use the same facility - is achieved with the ViewSet acting as a controller. A Django app's views module works with DRF's ViewSet to handle the same thing. As such, we no longer require the Command module from Barky.
-
-### Helpful Articles for this Refactor:
-
-- [Gabriel Saldaña | How to use Django models in external Python scripts](https://blog.gabrielsaldana.org/using-django-models-in-external-python-scripts/) - Vital if we are going to leverage the Django ORM outside of Django - very [kludgey](https://en.wikipedia.org/wiki/Kludge), so not a long-term strategy.
-- [Adam Green | aShould You Use Python pathlib or os?](https://betterprogramming.pub/should-you-be-using-pathlib-6f3a0fddec7e) - good for mapping between both approaches to working with path information.
-- [SO | How to call django.setup() in console_script?](https://stackoverflow.com/questions/39704298/how-to-call-django-setup-in-console-script) - some useful examples of how to use some of the built-in methods.
-- [Django Docs | How applications are loaded](https://docs.djangoproject.com/en/5.0/ref/applications/#how-applications-are-loaded) - working with `Django.setup()`, settings, and apps.
-- The [unittest - unit testing framework](https://docs.python.org/3/library/unittest.html#) - built into Python.
-- [Ivan Zakrevsky|About my experience of using Django Framework](https://emacsway.github.io/en/django-framework/) - good review of the Django experience with attention to how Django does not give us much room for the [Repository](https://emacsway.github.io/en/django-framework/#active-record) and [UoW](https://emacsway.github.io/en/django-framework/#transactional-consistency-of-data) patterns.
-- [Jordi Fierro | Clean Architecture in Django](https://medium.com/21buttons-tech/clean-architecture-in-django-d326a4ab86a9) - Very good explanation of the Clean Architecture in Django - we end up writing around the framework.
+1. Refactor 2 (Repository Pattern and UoW ): Assignment 6
+1. Refactor 3 (Celery/Messages and the Return of the Command): Assignment 7
+1. Refactor 4 (CQRS and DI/Bootstrapping): Assignment 8
