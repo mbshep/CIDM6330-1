@@ -42,7 +42,6 @@ class DjangoUnitOfWork(AbstractUnitOfWork):
 
         with transaction.atomic():
             for bm in self.bookmarks.bookmarks_set:
-                # self.bookmarks.update(bm)
                 print(f"committing bookmark: {str(bm)}")
                 self.bookmarks.update(bm)
 

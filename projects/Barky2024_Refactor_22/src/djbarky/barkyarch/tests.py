@@ -13,8 +13,6 @@ class RepositoryTests(TestCase):
     def setUp(self):
         rightnow = localtime().date()
 
-        print(f"rightnow: {rightnow}")
-
         self.repository = repository.DjangoRepository()
         self.domain_bookmark_1 = DomainBookmark(
             id=1,
@@ -23,8 +21,6 @@ class RepositoryTests(TestCase):
             notes="Best place on the web for Django.",
             date_added=rightnow,
         )
-
-        print(f"bookmark id: {self.domain_bookmark_1.id}")
 
     def test_repository_add(self):
         self.repository.add(self.domain_bookmark_1)
