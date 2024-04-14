@@ -80,7 +80,7 @@ I do not anticipate leaving things this way for refactor 3 and 4 as we might sim
 ## Running Tests Outside of Django
 The main issue we'll be facing is that when our tests must run outside of Django, they must bootstrap/setup Django first.
 
-[Ben Lopatin](https://www.benlopatin.com/) has a good resources that summarizes how to test outside of the Django project structure: [Testing outside of a project](https://www.django-standalone-apps.com/part1/testing.html).
+[Ben Lopatin](https://www.benlopatin.com/) - [also on Github](https://github.com/bennylope) - has a good resources that summarizes how to test outside of the Django project structure: [Testing outside of a project](https://www.django-standalone-apps.com/part1/testing.html).
 
 Key takeaways can be seen in the following code:
 ```python
@@ -153,7 +153,21 @@ if __name__ == "__main__":
     sys.exit(bool(failures))
 ```
 
-This is connected to the need to make sure that we configure and setup (bootstrap) Django first before using it in any external code: [Calling django.setup() is required for “standalone” Django usage](https://docs.djangoproject.com/en/5.0/topics/settings/#calling-django-setup-is-required-for-standalone-django-usage)
+This is connected to the need to make sure that we configure and setup (bootstrap) Django first before using it in any external code: [Calling django.setup() is required for “standalone” Django usage](https://docs.djangoproject.com/en/5.0/topics/settings/#calling-django-setup-is-required-for-standalone-django-usage).
+
+Ben Lopatin puts the question on whether we want "standalone" independence to serve as the basis of an entire book (which I bought): [Django Standalone Apps: Learn to Develop Reusable Django Libraries. Apress](https://link.springer.com/book/10.1007/978-1-4842-5632-9) 
+
+>In defining the scope of a potential Django standalone app, the first questions you need to ask are whether the package you have in mind needs to be a Django app or just a Python package using Django and secondly how Django-specific your package ought to be even if it isn’t an app. 
+
+>The first question is a somewhat minor question, but gets at how your app should be integrated into other Django projects and development workflows. It’s easy to see Django imports in your Python files and think “ah, this is an app,” when in fact it’s non-installable library code (non-installable in the sense of your INSTALLED_APPS, not in the sense of an installed package). For example, if you had some additional form fields that you wanted to distribute, these could be distributed and used as a “regular” Python library, without adding the module to your list of INSTALLED_APPS. You’ll still have to consider the issues discussed in subsequent chapters, such as testing, documentation, and packaging, but with minor differences in how you set up your tests and document usage. 
+
+>On the other hand, your prospective package may be incredibly useful in Django projects but have no hard requirements on Django, being agnostic to web framework or even to being used for web applications at all. If this is the case, then you should head down this road. Why ensure this separation? For starters, if you’re going to be sharing this with the rest of the world, and the core functionality doesn’t actually depend on Django, then you’ve broadened the audience. You’re also reducing yet another dependency in your package, which, even if you’re using it in Django projects, is another line of dependencies that can break. Where it makes sense, reference the standard library instead of Django utilities. If something moves in a new Django version, you’re now insulated from that change.
+
+>It’s worth keeping in mind that you can add functionality to Django projects without Django-specific modules, or without necessarily requiring Django. In Chapter 16 on mixed dependency support, we’ll examine how to separate out what’s Django specific and what’s not.
+
+
+## Drop Repository and Unit of Work?
+While we don't need to entirely, the means of its implementation requires that we so drastically avoid Django's monolithic nature that the exercise loses its point and meaning.
 
 ### Repository Pattern and Django
 
