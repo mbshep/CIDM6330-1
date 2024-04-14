@@ -11,7 +11,7 @@ class AbstractRepository(abc.ABC):
     """
 
     def __init__(self):
-        self.bookmarks_set = set()  # type: Set[model.DomainBookmark]
+        self.bookmarks_set = set()  # type: Set[DomainBookmark]
 
     def add(self, bookmark: DomainBookmark):
         self.bookmarks_set.add(bookmark)
