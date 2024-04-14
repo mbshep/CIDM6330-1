@@ -77,6 +77,84 @@ P&G discuss the ins and outs of Django app architecture and refer to [this post]
 
 I do not anticipate leaving things this way for refactor 3 and 4 as we might simply let Django be a monolith and operate within Django to capitilize on a hybrid approach between monolithic and microservices.
 
+## Running Tests Outside of Django
+The main issue we'll be facing is that when our tests must run outside of Django, they must bootstrap/setup Django first.
+
+[Ben Lopatin](https://www.benlopatin.com/) has a good resources that summarizes how to test outside of the Django project structure: [Testing outside of a project](https://www.django-standalone-apps.com/part1/testing.html).
+
+Key takeaways can be seen in the following code:
+```python
+#!/usr/bin/env python
+
+import sys
+
+try:
+    import django
+    from django.conf import settings
+
+    settings.configure(
+        DEBUG=True,
+        USE_TZ=True,
+        DATABASES={
+            "default": {
+                "ENGINE": "django.db.backends.sqlite3",
+            }
+        },
+        ROOT_URLCONF="tests.urls",
+        INSTALLED_APPS=[
+            "django.contrib.auth",
+            "django.contrib.contenttypes",
+            "django.contrib.sites",
+            "myapp",
+        ],
+        SITE_ID=1,
+        NOSE_ARGS=['-s'],
+        FIXTURE_DIRS=['tests/fixtures']
+    )
+    django.setup()
+
+    from django_nose import NoseTestSuiteRunner
+
+except ImportError:
+    raise ImportError("To fix this error, run: pip install -r requirements.txt")
+
+
+def run_tests(*test_args):
+    if not test_args:
+        test_args = ['tests']
+
+    test_runner = NoseTestSuiteRunner(verbosity=1)
+    failures = test_runner.run_tests(test_args)
+    if failures:
+        sys.exit(failures)
+
+
+if __name__ == '__main__':
+    run_tests(*sys.argv[1:])
+```
+
+Ben goes on to identify that the Django Documentation also has recommendations in this regard:
+
+```python
+#!/usr/bin/env python
+import os
+import sys
+
+import django
+from django.conf import settings
+from django.test.utils import get_runner
+
+if __name__ == "__main__":
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'tests.test_settings'
+    django.setup()
+    TestRunner = get_runner(settings)
+    test_runner = TestRunner()
+    failures = test_runner.run_tests(["tests"])
+    sys.exit(bool(failures))
+```
+
+This is connected to the need to make sure that we configure and setup (bootstrap) Django first before using it in any external code: [Calling django.setup() is required for “standalone” Django usage](https://docs.djangoproject.com/en/5.0/topics/settings/#calling-django-setup-is-required-for-standalone-django-usage)
+
 ### Repository Pattern and Django
 
 There are some articles and resources that demonstrate implementing the Repository Pattern in Django (or argue against them):
