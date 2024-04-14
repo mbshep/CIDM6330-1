@@ -23,10 +23,10 @@ class Bookmark(models.Model):
 
     def __str__(self):
         return f"{self.title}"
-    
+
     class Meta:
-        app_label = 'barkyapi'
-    
+        app_label = "barkyapi"
+
     # these methods are borrowed from P&G
     # it is not clear if they are needed as we are simply translating to and from pure Python
     # objects to Django models and back.
