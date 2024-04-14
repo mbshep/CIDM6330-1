@@ -2,7 +2,7 @@ from datetime import date
 from typing import List, Optional, Set
 
 
-class Bookmark:
+class DomainBookmark:
     """
     Bookmark domain model. Note, this is much simpler than P&G's domain model.
     """
