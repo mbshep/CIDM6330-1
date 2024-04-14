@@ -1,4 +1,4 @@
-# Barky Refactor 2
+# Barky Refactor 22
 The major difference in this refactor is the inclusion of a few key concepts which are explored in depth in P&G:
 - **Repository**: by abstracting state change operations on the entities within the domain, we can replace/insert any number of data persistence strategies.
     - P&G Readings: Chapters 2-5
@@ -7,26 +7,24 @@ The major difference in this refactor is the inclusion of a few key concepts whi
 - Project structure with setuptools
 - Use of `unittest` rather than `pytest`.
 
-## New to Refactor 2
-- Considers the Project Stucture Template from P&G from [Appendix B](https://www.cosmicpython.com/book/appendix_project_structure.html)
-    - Key items here are the use of Python's [setuptools](https://setuptools.pypa.io/en/latest/setuptools.html) to make the entire application installable.  This makes references within the application easier
-- Considers the [Appendix D](https://www.cosmicpython.com/book/appendix_django.html) application structure from P&G.
-    - this utilizes the app structure form Appendix B to have `barky` (allocation for P&G) live alongside the Django app
-    - it is not 100% certain that we'd completely live with this architecture - we might just collapase back into Django's folder/project strcuture.
-- **NOTE**: we are NOT using Docker despite P&G using it (and many other Django and Python books/tutorials).  Docker is just an extra layer that I chose not to deal with as our virtual environment will be sufficient.
-- **CAUTION**: the django parts are NOT launched automatially and need to be manually launched in thie refactor.  So you make sure you use one terminal to launch the django app so that another can be used to run tests in `barky`
-- With this refactor's architecture, we could use the Django project directly OR the barky infrastructure as barky has been refactored to be available for other implementation strategies beyond just Django.
-    - P&G presume the use of [pytest](https://docs.pytest.org/en/8.0.x/), but we'll stick to the built-in [unittest](https://docs.python.org/3/library/unittest.html) that comes with Python to remain consistent with Django.  So, new tests will be included to only test 'barky' rather than Django.  Thus, the Django parts will continue self-contain its tests.
+## Why is there a Refactor 22?
+Django is a monolithic architecture whose bootstrap process expects the settings.py module to be read from within the root/base project where all additional apps are listed.  Any given app can use other **utility** code, but Django doesn't want other code to call its elements without considerable additional effort to **ignite** Django's own bootstrap process first.
 
-## Key steps for this refactor
+Thus, regardless of whether we place our archiecture completely outside of the Django project (ensuring that PYTHONPATH is set to include that location), or even within the Django project structure, Django expects its own setup routine to be first called, with settings set, before any Django things can happen. This is normal behavior for a [monolithic architecture](https://www.linkedin.com/pulse/understanding-architecture-django-monolithic-approach-amin-zamani/).  Whereas in their last chapters, P&G introduce a bootstrap, we do not need a bootstrap as Django handles that.
 
-**KEY NOTE**: In keeping with P&G, we've moved the code to a `src/` directory.  However, I've not placed the `tests/` directly outside of source.  This has to do with the nature of Django and its clear that P&G warn us in [Appendix D](https://www.cosmicpython.com/book/appendix_django.html) that we will indeed be fighting Django to make **some** aspects of their architecture work. This is not unlike adopting a major [CRM](https://en.wikipedia.org/wiki/Customer_relationship_management) (such as [Salesforce](https://en.wikipedia.org/wiki/Salesforce)) or [ERP](https://en.wikipedia.org/wiki/Enterprise_resource_planning) platform and then trying to fit it alongside other elements of your enterprise architecture - it can be done, but it has to be done in conjunction with the behaviors of that major platform.
+So, there are probably a few things we'll need to re-examine:
+- **Repository** - we can still do this, but it must be tested via one of the Apps you've identified in Django's settings.  Whereas I'm sure we can use the repository now to bypass Django's O/RM, it seems mostly wierd to make our respository an app within Django
 
-1. make sure you configure the `setup.py` file, which is used by [setuptools](https://pypi.org/project/setuptools/).
-2. make sure you "install" the package from the directory just above `src/` using the following command: `pip install -e src/` 
-3. take note of what I do in the code to make Django work outside of its own environment. See: [Django Settings](https://docs.djangoproject.com/en/5.0/topics/settings/).  
-4. The path/location information is hard-wired, so it might have to be changed on your machine.
-5. Unit tests are run this way: `python -m unittest -v test_services.TestCaseRepository.test_repository_list`
+
+## New to Refactor 22
+In this refactor, we have three main choices to consider if we wan't any Django-adjacent things like the services, domain, and adapters from P&G (Django views are considered endpoints).  Don't forget that [Django's MVT](https://www.geeksforgeeks.org/django-project-mvt-structure/) is itself an architectural pattern.
+
+1. *Option 1* is to leave architecture code outside of Django folder/file structure and considering using setuptools to make it an installable package (which we left behind in refactor 2).  This is fine but the actual cross-talk will still require that testing this package happens within Django.
+2. *Option 2* is the place architecture code witin Django's structure, but this does not exonerate us from needing to ensure that Django's bootstrap/setup process still launches.  We still can't test from within the module without extra hassle, so this seems like it'll be better than option 1, but that's not really the case either.
+3. *Option 3* is that we make the repository and other architectural code a Django app itself and thus tightly coupling the presumably independent architecture to Django's itself.  This option makes testing and cross-communication much easier.
+
+### A fourth way
+A fourth way would be to write other code that accesses the endpoints of the DRF services we expose and leave Django to its own devices.  We can demonstrate this, but we still would be resigned to just this method as Django's O/RM can't be used outside of Django without running Django.  Testing endpoints is fine and this creates a hybrid where Django is still being used more for a micro-services arhictecture rather than the contining monolith.  We would not use any of Django's templating or presentation capabilities with this approach.
 
 ### We Won't Continue Down this Path
 We will not likely put the effort into the CRUD (repository pattern) and transaction (Unit Of Work) facilities of the architectural patterns from chapters 1 to 7 with Django as features or facilities that exist **OUTSIDE** of the Django project framework.  This is because we are fundamentally fighting Django to get these done.  This is probably why P&G chose Flask/SQLAlchemy as they are more loosely coupled which makes it easier to include them as part of an overall architecture.
@@ -70,6 +68,14 @@ def allocate(request):
 ```
 
 P&G discuss the ins and outs of Django app architecture and refer to [this post](https://forum.djangoproject.com/t/where-to-put-business-logic-in-django/282/7) on the matter of how to extend/modify Django's out-of-the-box design when/as needed.  Of course, the book's [Epilogue](https://www.cosmicpython.com/book/epilogue_1_how_to_get_there_from_here.html) is also a great read on the matter of how to balance and make sense out of the book's material.
+
+## Updated project strcuture
+
+- **djbarky** - the main Django project
+- **barkyapi** - the DRF app
+- **barkyarch** - the architectural elements that mirror those from P&G
+
+I do not anticipate leaving things this way for refactor 3 and 4 as we might simply let Django be a monolith and operate within Django to capitilize on a hybrid approach between monolithic and microservices.
 
 ### Repository Pattern and Django
 
