@@ -9,7 +9,6 @@ from barkyarch.adapters import repository
 
 class RepositoryTests(TestCase):
     def setUp(self):
-
         rightnow = localtime().date()
 
         print(f"rightnow: {rightnow}")

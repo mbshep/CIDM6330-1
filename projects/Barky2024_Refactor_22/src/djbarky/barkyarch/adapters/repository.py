@@ -43,9 +43,7 @@ class DjangoRepository(AbstractRepository):
         return Bookmark.objects.filter(id=id).first().to_domain()
 
     def list(self):
-        return [
-            bookmark.to_domain() for bookmark in Bookmark.objects.all()
-        ]
+        return [bookmark.to_domain() for bookmark in Bookmark.objects.all()]
 
 
 class DjangoApiRepository(AbstractRepository):
