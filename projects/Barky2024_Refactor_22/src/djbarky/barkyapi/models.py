@@ -5,7 +5,7 @@ from pygments.lexers import get_lexer_by_name
 from pygments.formatters.html import HtmlFormatter
 from pygments import highlight
 
-from barky.domain import model as domain_model
+from barkyarch.domain import model as domain_model
 
 # pygments stuff
 LEXERS = [item for item in get_all_lexers() if item[1]]
