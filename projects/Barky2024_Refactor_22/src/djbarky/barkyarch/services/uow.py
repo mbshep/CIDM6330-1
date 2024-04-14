@@ -28,25 +28,28 @@ class DjangoUnitOfWork(AbstractUnitOfWork):
     def __enter__(self):
         self.bookmarks = repository.DjangoRepository()
         # Django ORM has its own transaction management system - https://docs.djangoproject.com/en/5.0/topics/db/transactions/
-        # tell Django to stop automatically committing each ORM operation immediately
-        # so that we can to what we want. Honestly, we are fighting against Django's ORM here.
-        transaction.set_autocommit(False)
+        # will not be following P&G's advice to use transaction.set_autocommit(False)
+        # we will be using Django's transaction.atomic() context manager instead
+        # https://docs.djangoproject.com/en/5.0/topics/db/transactions/#controlling-transactions-explicitly
+
         return super().__enter__()
 
     def __exit__(self, *args):
         super().__exit__(*args)
-        transaction.set_autocommit(True)
 
     def commit(self):
         # explicit rollback and commits are not normally needed in the Django ORM
-        # however, we must manually update each object that has been modified
-        for bm in self.bookmarks.bookmarks_set:
-            self.bookmarks.bookmarks_set.update(bm)
-        transaction.commit()
+
+        with transaction.atomic():
+            for bm in self.bookmarks.bookmarks_set:
+                # self.bookmarks.update(bm)
+                print(f"committing bookmark: {str(bm)}")
+                self.bookmarks.update(bm)
 
     def rollback(self):
         # explicit rollback and commits are not normally needed in the Django ORM
-        transaction.rollback()
+        # we will be using Django's transaction.atomic() context manager instead
+        pass
 
 
 class DjangoApiUnitOfWork(AbstractUnitOfWork):
@@ -62,9 +65,7 @@ class DjangoApiUnitOfWork(AbstractUnitOfWork):
         pass
 
     def commit(self):
-        # for batch in self.batches.seen:
-        #     self.batches.update(batch)
-        # transaction.commit()
+        super.commit()
         pass
 
     def rollback(self):

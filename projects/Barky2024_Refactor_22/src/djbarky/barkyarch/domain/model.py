@@ -14,5 +14,5 @@ class DomainBookmark:
         self.notes = notes
         self.date_added = date_added
 
-        def __str__(self):
-            return f"{self.title}"
+    def __str__(self):
+        return f"{self.title}"
