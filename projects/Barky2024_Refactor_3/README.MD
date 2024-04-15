@@ -34,6 +34,14 @@ Let's be clear though, in order to do Celery, we'll want to establish what we'll
 ## Celery Alternative - Huey and Django
 While [Huey](https://github.com/coleifer/huey) doesn't avoid redis, it does present a slightly simpler, and windows-friendly, alternative
 
+## Other options
+
+- Channels
+- Signals
+
+## Key Produce Consumer Demo
+
+[producer-consumer](https://github.com/arsenmakovei/producer-consumer)
 
 
 
