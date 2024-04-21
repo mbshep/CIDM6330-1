@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # 3rd party
-    "rest_framework",
+    "daphne",           # ASGI server
+    "rest_framework",   # REST API
     # local
     "barkyapi.apps.BarkyapiConfig",
     "barkyarch.apps.BarkyarchConfig",

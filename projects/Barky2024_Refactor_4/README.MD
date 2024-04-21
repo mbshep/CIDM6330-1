@@ -48,10 +48,23 @@ A Dependency Inversion approach can be seen here:
 
 ![DIP Approach](../../docs/img/DIPLayersPattern.png)
 
+## Bootstrapping
+
+While P&G add some system boostrapping in Chapter 13, with Django's monolith, this is all handled by both the manage.py and settings.py files in terms of getting Django's ecosystem to launch.  As P&G use Flask based on the premise that their book will cover the development of a Microservices architecture, then it is understandable that they must also include this **bootstrapping** provision in their work.  However, this is just not necessary in Django.  
+
+The [following has been said](https://learndjango.com/tutorials/flask-vs-django) about Django vs. Flask when it comes to a microservices vs. monolithing dichotomy:
+
+>A Django proponent would say that a Flask developer eventually rebuilds Django itself, poorly and slowly. A Flask advocate would counter that Django is far too heavy, slower for prototypes, and harder to customize as needed at scale.
+
+I would appeal to the [Pareto Principle](https://www.investopedia.com/terms/1/80-20-rule.asp) here and say that I'd build my castle on the foundation of the tried-and-true like Django and then consider further. But don't forget, as I myself have grown older, I increasingly stand by the wisdom of [choosing boring technology](https://mcfunley.com/choose-boring-technology).
+
+In short, we don't need P&G's bootstrapping.
+
 ## New to Refactor 4
 
-- For simplicity, I'll be using Django Signals rather than Celery.
-- As we are moving entirely into the Django monolith, remove the editable package: `pip uninstall barky`
+- For simplicity, I'll be using Django Channels rather than Celery. Celery is very standard, but has too many dependencies for our purposes.
+- As we are moving entirely into the Django monolith, remeber to remove the editable package: `pip uninstall barky`
+- 
 
 ## Barky Refactoring Roadmap
 
