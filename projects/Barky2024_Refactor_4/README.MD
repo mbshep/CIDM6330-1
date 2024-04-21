@@ -21,8 +21,11 @@ Neither Python nor Django have a native facility for [Dependency Injection](http
 Dependency Injection is among the 5 SOLID principles, each of which we would have studied closer had the book been available to me.
 
 However, here they are:
-
-
+- [Single Responsibility Principle](https://en.wikipedia.org/wiki/Single_responsibility_principle)
+- [Open-Close Princple](https://en.wikipedia.org/wiki/Open%E2%80%93closed_principle)
+- [Liskov Substitution Principle](https://en.wikipedia.org/wiki/Liskov_substitution_principle)
+- [Interface Segregation Principle](https://en.wikipedia.org/wiki/Interface_segregation_principle)
+- [Dependcy Inversion Principle](https://en.wikipedia.org/wiki/Dependency_inversion_principle)
 
 With DI, we are doing this:
 
@@ -34,6 +37,16 @@ We use the dependency inversion principle to address potential coupling issues. 
 If both higher-level and lower-level objectsdepend on the same abstractions we invert how the depency is specified - You'll be driving a rental car, but which actual car you get is dependency that is `injected` at the time of rental car checkin.
 
 Dependency Injection informs the design of interactions between higher-level and lower-level modules where the details of this interaction are abstracted. The lower-level module is designed purposefully to know about the **WHAT** as the **HOW** is immaterial: the expected result will be assured.
+
+The linked Wiki article diagrams the differences thusly:
+
+A straightforward pattern can be seen here, but one where the dependencies are all rigid:
+
+![Traditional Approach](../../docs/img/Traditional_Layers_Pattern.png)
+
+A Dependency Inversion approach can be seen here:
+
+![DIP Approach](../../docs/img/DIPLayersPattern.png)
 
 - Channels
 - Signals
