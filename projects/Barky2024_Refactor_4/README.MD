@@ -14,6 +14,29 @@ By now, I've adopted a familiar pattern where I use any excuse to just revert to
 
 While [Django Channels](https://channels.readthedocs.io/en/latest/) is not a native project within the Django Project itself, it is highly adjacent (like the [Django Rest Framework](https://www.django-rest-framework.org/) is) and will likely remain consistent with Django for years to come.
 
+We're really going to rely on Django Channels to model its ability to broker background tasks in the same way that Celery can do. Channels would also let us do external message bus actions as well.
+
+Here is a useful example from Jay Hale: [https://github.com/jayhale/channels-examples-bg-task](https://github.com/jayhale/channels-examples-bg-task)
+
+#### Redis
+Almost all task/messaging frameworks end up wanting you to install/use [REDIS](https://redis.io/).  It has turned out to be almost impossible in the Django/Python world to avoid this.  Even Channels, which does have an in-memory facility for its backend, won't serve as an implementation for P&G's external message bus without [REDIS](https://redis.io/).
+
+So, there are two things here, depending on your OS:
+1. REDIS will very happly/handily install on [Linux](https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/install-redis-on-linux/) or [Mac](https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/install-redis-on-mac-os/) without much hassle.
+1. [REDIS on Windows](https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/install-redis-on-windows/) isn't necessarily hard, but requires Win10/11 and to "fake" a *nix environment.
+
+### Worker and Background Tasks in Channels
+One of the issues in making our project work using Django Channels is that we are using the Worker and Background Tasks in Django Channels to simulate the external message bus as is in P&G.  Django Channels does this task just okay, but is flexible to do external messaging as well.  For the P&G case, the aim was InterProcess Communication within a wider system.
+
+The issue with REDIS, as stated in the previous section, comes from the following warning from the Django Channels documentation: 
+
+>The worker/background tasks system in Channels is simple and very fast, and achieves this by not having some features you may find useful, such as retries or return values. We recommend you use it for work that does not need guarantees around being complete (at-most-once delivery), and for work that needs more guarantees, look into a separate dedicated task queue. **This feature does not work with the in-memory channel layer.**
+
+So, it is the use of Channel Layers that forces us to us REDIS.  In this regard, we could have gone the Celery route.
+
+
+
+
 ## Dependency Injection
 
 Neither Python nor Django have a native facility for [Dependency Injection](https://martinfowler.com/articles/injection.html), which is also often called the [Inversion of Control](https://en.wikipedia.org/wiki/Dependency_inversion_principle).

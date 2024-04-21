@@ -31,6 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # 3rd party
+    # channels docs recommend adding channels before other apps
+    "daphne",  # ASGI server
     # django
     "django.contrib.admin",
     "django.contrib.auth",
@@ -39,8 +42,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # 3rd party
-    "daphne",           # ASGI server
-    "rest_framework",   # REST API
+    "channels",  # Channels
+    "rest_framework",  # REST API
     # local
     "barkyapi.apps.BarkyapiConfig",
     "barkyarch.apps.BarkyarchConfig",
@@ -132,4 +135,16 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 10,
+}
+
+# Channels
+ASGI_APPLICATION = "djbarky.asgi.application"
+# CHANNEL_LAYERS = {"default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}}
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
 }
