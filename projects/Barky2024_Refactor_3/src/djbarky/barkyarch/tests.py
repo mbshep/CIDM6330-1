@@ -5,60 +5,42 @@ from django.utils.timezone import localtime
 
 from barkyapi.models import Bookmark
 from barkyarch.domain.model import DomainBookmark
-from barkyarch.adapters import repository
-from barkyarch.services.uow import DjangoUnitOfWork
+from barkyarch.services.commands import (
+    AddBookmarkCommand,
+    ListBookmarksCommand,
+    DeleteBookmarkCommand,
+    EditBookmarkCommand,
+)
 
 
-class RepositoryTests(TestCase):
+class TestCommands(TestCase):
     def setUp(self):
-        rightnow = localtime().date()
-
-        self.repository = repository.DjangoRepository()
-        self.domain_bookmark_1 = DomainBookmark(
-            id=1,
-            title="Awesome Django",
-            url="https://awesomedjango.org/",
-            notes="Best place on the web for Django.",
-            date_added=rightnow,
-        )
-
-    def test_repository_add(self):
-        self.repository.add(self.domain_bookmark_1)
-        self.assertEqual(Bookmark.objects.count(), 1)
-
-
-class UoWTests(TestCase):
-    def setUp(self):
-        rightnow = localtime().date()
+        right_now = localtime().date()
 
         self.domain_bookmark_1 = DomainBookmark(
             id=1,
-            title="Awesome Django",
-            url="https://awesomedjango.org/",
-            notes="Best place on the web for Django.",
-            date_added=rightnow,
+            title="Test Bookmark",
+            url="http://www.example.com",
+            notes="Test notes",
+            date_added=right_now,
         )
 
         self.domain_bookmark_2 = DomainBookmark(
-            id=1,
-            title="Django News",
-            url="https://django-news.com/",
-            notes="Weekly Django news, articles, projects, and more.",
-            date_added=rightnow,
+            id=2,
+            title="Test Bookmark 2",
+            url="http://www.example2.com",
+            notes="Test notes 2",
+            date_added=right_now,
         )
 
-    def test_uow_add_update(self):
-        uow = DjangoUnitOfWork()
+    def test_command_add(self):
+        add_command = AddBookmarkCommand()
+        add_command.execute(self.domain_bookmark_1)
 
-        with uow:
-            print(f"Bookmarks before: {uow.bookmarks.bookmarks_set}")
-            uow.bookmarks.add(self.domain_bookmark_1)
-            uow.bookmarks.add(self.domain_bookmark_2)
-            uow.commit()
-            print(f"Bookmarks before: {uow.bookmarks.bookmarks_set}")
-            # good ole W3Schools: https://www.w3schools.com/python/gloss_python_set_length.asp
-            # this will show that the transaction has committed two records prior to the rollback
-            self.assertEqual(len(uow.bookmarks.bookmarks_set), 2)
+        # run checks
 
-        # the transaction records will have been rolled back. The count will be 1 from the repo test.
+        # one object is inserted
         self.assertEqual(Bookmark.objects.count(), 1)
+
+        # that object is the same as the one we inserted
+        self.assertEqual(Bookmark.objects.get(id=1).url, self.domain_bookmark_1.url)

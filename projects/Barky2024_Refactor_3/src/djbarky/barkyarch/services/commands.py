@@ -5,13 +5,13 @@ specify and implement the business logic layer
 import sys
 from abc import ABC, abstractmethod
 from datetime import datetime
+import pytz
 
 import requests
+from django.db import transaction
 
-from database import DatabaseManager
-
-# module scope
-db = DatabaseManager("bookmarks.db")
+from barkyapi.models import Bookmark
+from barkyarch.domain.model import DomainBookmark
 
 
 class Command(ABC):
@@ -20,119 +20,49 @@ class Command(ABC):
         raise NotImplementedError("A command must implement the execute method")
 
 
-class CreateBookmarksTableCommand(Command):
-    """
-    uses the DatabaseManager to create the bookmarks table
-    """
-
-    def execute(self, data=None):
-        db.create_table(
-            "bookmarks",
-            {
-                "id": "integer primary key autoincrement",
-                "title": "text not null",
-                "url": "text not null",
-                "notes": "text",
-                "date_added": "text not null",
-            },
-        )
-
-
 class AddBookmarkCommand(Command):
     """
-    This class will:
-
-    1. Expect a dictionary containing the title, URL, and (optional) notes information for a bookmark.
-    2. Add the current datetime to the dictionary as date_added.
-    3. Insert the data into the bookmarks table using the DatabaseManager.add method.
-    4. Return a success message that will eventually be displayed by the presentation layer.
+    Using the django orm and transactions to add a bookmark
     """
 
-    def execute(self, data, timestamp=None):
-        data["date_added"] = datetime.utcnow().isoformat()
-        db.add("bookmarks", data)
-        return "Bookmark added!"
+    def execute(self, data: DomainBookmark, timestamp=None):
+        bookmark = Bookmark(data.id, data.title, data.url, data.notes, timestamp)
+        bookmark.timestamp = datetime.now(pytz.UTC).isoformat()
+
+        # again, we skip the ouw with django's transaction management
+        with transaction.atomic():
+            bookmark.save()
 
 
 class ListBookmarksCommand(Command):
     """
-    We need to review the bookmarks in the database.
-    To do so, this class will:
-    1. Accept the column to order by, and save it as an instance attribute.
-    2. Pass this information along to db.select in its execute method.
-    3. Return the result (using the cursor’s .fetchall() method) because select is a query.
+    swapping in Django ORM for the database manager
     """
 
     def __init__(self, order_by="date_added"):
         self.order_by = order_by
 
     def execute(self, data=None):
-        return db.select("bookmarks", order_by=self.order_by).fetchall()
+        return Bookmark.objects.all().order_by(self.order_by)
 
 
 class DeleteBookmarkCommand(Command):
     """
-    We also need to remove bookmarks.
+    Using the django ORM to delete a bookmark
     """
 
-    def execute(self, data):
-        db.delete("bookmarks", {"id": data})
-        return "Bookmark deleted!"
-
-
-class ImportGitHubStarsCommand(Command):
-    """
-    Import starred repos in Github - credit Dane Hillard
-    """
-
-    def _extract_bookmark_info(self, repo):
-        return {
-            "title": repo["name"],
-            "url": repo["html_url"],
-            "notes": repo["description"],
-        }
-
-    def execute(self, data):
-        bookmarks_imported = 0
-
-        github_username = data["github_username"]
-        next_page_of_results = f"https://api.github.com/users/{github_username}/starred"
-        while next_page_of_results:
-            stars_response = requests.get(
-                next_page_of_results,
-                headers={"Accept": "application/vnd.github.v3.star+json"},
-            )
-            next_page_of_results = stars_response.links.get("next", {}).get("url")
-
-            for repo_info in stars_response.json():
-                repo = repo_info["repo"]
-
-                if data["preserve_timestamps"]:
-                    timestamp = datetime.strptime(
-                        repo_info["starred_at"], "%Y-%m-%dT%H:%M:%SZ"
-                    )
-                else:
-                    timestamp = None
-
-                bookmarks_imported += 1
-                AddBookmarkCommand().execute(
-                    self._extract_bookmark_info(repo),
-                    timestamp=timestamp,
-                )
-
-        return f"Imported {bookmarks_imported} bookmarks from starred repos!"
+    def execute(self, data: DomainBookmark):
+        bookmark = Bookmark.objects.get(url=data.url)
+        with transaction.atomic():
+            bookmark.delete()
 
 
 class EditBookmarkCommand(Command):
-    def execute(self, data):
-        db.update(
-            "bookmarks",
-            {"id": data["id"]},
-            data["update"],
-        )
-        return "Bookmark updated!"
+    """
+    Using the django ORM to update a bookmark
+    """
 
-
-class QuitCommand(Command):
-    def execute(self, data=None):
-        sys.exit()
+    def execute(self, data: DomainBookmark):
+        bookmark = Bookmark.update_from_domain(data)
+        with transaction.atomic():
+            bookmark.save()
