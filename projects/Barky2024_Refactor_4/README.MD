@@ -72,7 +72,7 @@ A Dependency Inversion approach can be seen here:
 
 ![DIP Approach](../../docs/img/DIPLayersPattern.png)
 
-For this refactor, I am using a Python Dependency Injector framework, called (handily) [Python Injector](https://github.com/python-injector/injector). 
+For this refactor, I am using a Python Dependency Injector framework, called (handily) [Python Injector](https://github.com/python-injector/injector).
 
 ### DI with the Commands
 

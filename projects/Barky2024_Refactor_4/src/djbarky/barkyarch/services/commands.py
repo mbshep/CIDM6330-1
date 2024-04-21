@@ -21,7 +21,7 @@ class Command(ABC):
         raise NotImplementedError("A command must implement the execute method")
 
 
-class TimeStampProvider:
+class PythonTimeStampProvider:
     def __init__(self):
         self.now = datetime.now(pytz.UTC).isoformat()
 
@@ -32,7 +32,7 @@ class AddBookmarkCommand(Command):
     """
 
     @inject
-    def __init__(self, now: TimeStampProvider = TimeStampProvider()):
+    def __init__(self, now: PythonTimeStampProvider = PythonTimeStampProvider()):
         self.now = now
 
     def execute(self, data: DomainBookmark, timestamp=None):
