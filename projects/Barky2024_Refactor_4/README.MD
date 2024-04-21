@@ -48,30 +48,7 @@ A Dependency Inversion approach can be seen here:
 
 ![DIP Approach](../../docs/img/DIPLayersPattern.png)
 
-- Channels
-- Signals
-
-## The Django Signals Option
-
-From the Django documentation:
-
-> Django includes a “signal dispatcher” which helps decoupled applications get notified when actions occur elsewhere in the framework. In a nutshell, signals allow certain senders to notify a set of receivers that some action has taken place. They’re especially useful when many pieces of code may be interested in the same events.
-
-This will handily accommodate the premise of the internal message bus (from P&G):
-
-> The Message Bus Maps Events to Handlers: A message bus basically says, "When I see this event, I should invoke the following handler function." In other words, it’s a simple publish-subscribe system. Handlers are subscribed to receive events, which we publish to the bus.
-
-Django Signals does what P&G describe and, as we have opted for the monolith, then we'll just go the Django Signals route.
-
-Django Signals provides a relatively limited built-in vocabulary for known events, but the provided set of signals cover a majority of use cases.  The built-in signals (a signal is our event) include the following categories:
-- [Model Signals](https://docs.djangoproject.com/en/5.0/ref/signals/#module-django.db.models.signals)
-- [Management Signals](https://docs.djangoproject.com/en/5.0/ref/signals/#management-signals)
-- [Request/Response Signals](https://docs.djangoproject.com/en/5.0/ref/signals/#module-django.core.signals)
-- [Test Signals](https://docs.djangoproject.com/en/5.0/ref/signals/#module-django.test.signals)
-
-If those built-in signals do not work for us, we can also [define any custom signal](https://docs.djangoproject.com/en/5.0/topics/signals/#defining-and-sending-signals).
-
-## New to Refactor 3
+## New to Refactor 4
 
 - For simplicity, I'll be using Django Signals rather than Celery.
 - As we are moving entirely into the Django monolith, remove the editable package: `pip uninstall barky`
