@@ -64,6 +64,8 @@ Django Signals provides a relatively limited built-in vocabulary for known event
 - [Request/Response Signals](https://docs.djangoproject.com/en/5.0/ref/signals/#module-django.core.signals)
 - [Test Signals](https://docs.djangoproject.com/en/5.0/ref/signals/#module-django.test.signals)
 
+If those built-in signals do not work for us, we can also [define any custom signal](https://docs.djangoproject.com/en/5.0/topics/signals/#defining-and-sending-signals).
+
 ## New to Refactor 3
 
 - For simplicity, I'll be using Django Signals rather than Celery.
