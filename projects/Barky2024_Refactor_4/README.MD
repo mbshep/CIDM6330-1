@@ -19,23 +19,23 @@ We're really going to rely on Django Channels to model its ability to broker bac
 Here is a useful example from Jay Hale: [https://github.com/jayhale/channels-examples-bg-task](https://github.com/jayhale/channels-examples-bg-task)
 
 #### Redis
+
 Almost all task/messaging frameworks end up wanting you to install/use [REDIS](https://redis.io/).  It has turned out to be almost impossible in the Django/Python world to avoid this.  Even Channels, which does have an in-memory facility for its backend, won't serve as an implementation for P&G's external message bus without [REDIS](https://redis.io/).
 
 So, there are two things here, depending on your OS:
+
 1. REDIS will very happly/handily install on [Linux](https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/install-redis-on-linux/) or [Mac](https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/install-redis-on-mac-os/) without much hassle.
-1. [REDIS on Windows](https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/install-redis-on-windows/) isn't necessarily hard, but requires Win10/11 and to "fake" a *nix environment.
+1. [REDIS on Windows](https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/install-redis-on-windows/) isn't necessarily hard, but requires Win10/11 and to "fake" a \*nix environment.
 
 ### Worker and Background Tasks in Channels
+
 One of the issues in making our project work using Django Channels is that we are using the Worker and Background Tasks in Django Channels to simulate the external message bus as is in P&G.  Django Channels does this task just okay, but is flexible to do external messaging as well.  For the P&G case, the aim was InterProcess Communication within a wider system.
 
-The issue with REDIS, as stated in the previous section, comes from the following warning from the Django Channels documentation: 
+The issue with REDIS, as stated in the previous section, comes from the following warning from the Django Channels documentation:
 
->The worker/background tasks system in Channels is simple and very fast, and achieves this by not having some features you may find useful, such as retries or return values. We recommend you use it for work that does not need guarantees around being complete (at-most-once delivery), and for work that needs more guarantees, look into a separate dedicated task queue. **This feature does not work with the in-memory channel layer.**
+> The worker/background tasks system in Channels is simple and very fast, and achieves this by not having some features you may find useful, such as retries or return values. We recommend you use it for work that does not need guarantees around being complete (at-most-once delivery), and for work that needs more guarantees, look into a separate dedicated task queue. **This feature does not work with the in-memory channel layer.**
 
 So, it is the use of Channel Layers that forces us to us REDIS.  In this regard, we could have gone the Celery route.
-
-
-
 
 ## Dependency Injection
 
@@ -44,6 +44,7 @@ Neither Python nor Django have a native facility for [Dependency Injection](http
 Dependency Injection is among the 5 SOLID principles, each of which we would have studied closer had the book been available to me.
 
 However, here they are:
+
 - [Single Responsibility Principle](https://en.wikipedia.org/wiki/Single_responsibility_principle)
 - [Open-Close Princple](https://en.wikipedia.org/wiki/Open%E2%80%93closed_principle)
 - [Liskov Substitution Principle](https://en.wikipedia.org/wiki/Liskov_substitution_principle)
@@ -71,13 +72,19 @@ A Dependency Inversion approach can be seen here:
 
 ![DIP Approach](../../docs/img/DIPLayersPattern.png)
 
+For this refactor, I am using a Python Dependency Injector framework, called (handily) [Dependency Injector — Dependency injection framework for Python](https://python-dependency-injector.ets-labs.org/index.html). It seems straightforward enough and fortunately has a [Django example](https://python-dependency-injector.ets-labs.org/examples/django.html) to follow.
+
+### DI with the Commands
+
+The previous refactor switched to commands and this refactor will utilize the ABC-designed Command (slightly modifed from Dane Hillard) to facilitae the injection.
+
 ## Bootstrapping
 
-While P&G add some system boostrapping in Chapter 13, with Django's monolith, this is all handled by both the manage.py and settings.py files in terms of getting Django's ecosystem to launch.  As P&G use Flask based on the premise that their book will cover the development of a Microservices architecture, then it is understandable that they must also include this **bootstrapping** provision in their work.  However, this is just not necessary in Django.  
+While P&G add some system boostrapping in Chapter 13, with Django's monolith, this is all handled by both the manage.py and settings.py files in terms of getting Django's ecosystem to launch.  As P&G use Flask based on the premise that their book will cover the development of a Microservices architecture, then it is understandable that they must also include this **bootstrapping** provision in their work.  However, this is just not necessary in Django.
 
 The [following has been said](https://learndjango.com/tutorials/flask-vs-django) about Django vs. Flask when it comes to a microservices vs. monolithing dichotomy:
 
->A Django proponent would say that a Flask developer eventually rebuilds Django itself, poorly and slowly. A Flask advocate would counter that Django is far too heavy, slower for prototypes, and harder to customize as needed at scale.
+> A Django proponent would say that a Flask developer eventually rebuilds Django itself, poorly and slowly. A Flask advocate would counter that Django is far too heavy, slower for prototypes, and harder to customize as needed at scale.
 
 I would appeal to the [Pareto Principle](https://www.investopedia.com/terms/1/80-20-rule.asp) here and say that I'd build my castle on the foundation of the tried-and-true like Django and then consider further. But don't forget, as I myself have grown older, I increasingly stand by the wisdom of [choosing boring technology](https://mcfunley.com/choose-boring-technology).
 
@@ -87,7 +94,7 @@ In short, we don't need P&G's bootstrapping.
 
 - For simplicity, I'll be using Django Channels rather than Celery. Celery is very standard, but has too many dependencies for our purposes.
 - As we are moving entirely into the Django monolith, remeber to remove the editable package: `pip uninstall barky`
-- 
+-
 
 ## Barky Refactoring Roadmap
 

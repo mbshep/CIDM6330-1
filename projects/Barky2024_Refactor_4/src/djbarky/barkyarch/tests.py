@@ -38,7 +38,6 @@ class TestCommands(TestCase):
         add_command.execute(self.domain_bookmark_1)
 
         # run checks
-
         # one object is inserted
         self.assertEqual(Bookmark.objects.count(), 1)
 

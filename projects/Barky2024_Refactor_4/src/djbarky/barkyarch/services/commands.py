@@ -5,6 +5,7 @@ specify and implement the business logic layer
 import sys
 from abc import ABC, abstractmethod
 from datetime import datetime
+from injector import Injector, inject
 import pytz
 
 import requests
@@ -20,14 +21,23 @@ class Command(ABC):
         raise NotImplementedError("A command must implement the execute method")
 
 
+class TimeStampProvider:
+    def __init__(self):
+        self.now = datetime.now(pytz.UTC).isoformat()
+
+
 class AddBookmarkCommand(Command):
     """
     Using the django orm and transactions to add a bookmark
     """
 
+    @inject
+    def __init__(self, now: TimeStampProvider = TimeStampProvider()):
+        self.now = now
+
     def execute(self, data: DomainBookmark, timestamp=None):
         bookmark = Bookmark(data.id, data.title, data.url, data.notes, timestamp)
-        bookmark.timestamp = datetime.now(pytz.UTC).isoformat()
+        bookmark.timestamp = self.now
 
         # again, we skip the ouw with django's transaction management
         with transaction.atomic():

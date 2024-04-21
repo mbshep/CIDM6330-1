@@ -4,7 +4,7 @@ import datetime
 import json
 
 # Django
-from channels.consumer import AsyncConsumer,SyncConsumer
+from channels.consumer import AsyncConsumer, SyncConsumer
 from channels.generic.http import AsyncHttpConsumer
 
 # Local
