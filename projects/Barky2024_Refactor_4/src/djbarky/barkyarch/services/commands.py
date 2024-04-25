@@ -44,6 +44,15 @@ class AddBookmarkCommand(Command):
             bookmark.save()
 
 
+class GetBookmarkCommand(Command):
+    """
+    Using the django orm and transactions to add a bookmark
+    """
+
+    def execute(self, data: int, timestamp=None):
+        return Bookmark.objects.get(id=data).to_domain()
+
+
 class ListBookmarksCommand(Command):
     """
     swapping in Django ORM for the database manager

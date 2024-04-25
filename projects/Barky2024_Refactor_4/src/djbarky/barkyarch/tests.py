@@ -7,6 +7,7 @@ from barkyapi.models import Bookmark
 from barkyarch.domain.model import DomainBookmark
 from barkyarch.services.commands import (
     AddBookmarkCommand,
+    GetBookmarkCommand,
     ListBookmarksCommand,
     DeleteBookmarkCommand,
     EditBookmarkCommand,
@@ -43,3 +44,26 @@ class TestCommands(TestCase):
 
         # that object is the same as the one we inserted
         self.assertEqual(Bookmark.objects.get(id=1).url, self.domain_bookmark_1.url)
+
+    def test_command_edit(self):
+
+        add_command = AddBookmarkCommand()
+        add_command.execute(self.domain_bookmark_1)
+
+        # using command
+        # get_command = GetBookmarkCommand()
+        # domain_bookmark_temp = get_command.execute(self.domain_bookmark_1.id)
+        # domain_bookmark_temp.title = "Goofy"
+
+        # or just modify
+        self.domain_bookmark_1.title = "goofy"
+
+        edit_command = EditBookmarkCommand()
+        edit_command.execute(self.domain_bookmark_1)
+
+        # run checks
+        # one object is inserted
+        self.assertEqual(Bookmark.objects.count(), 1)
+
+        # that object is the same as the one we inserted
+        self.assertEqual(Bookmark.objects.get(id=1).title, "goofy")
