@@ -2,7 +2,11 @@
 
 I added Django Signals and testing for the additional commands in commands.py
 
-Added a test of the delete - wasn't sure how to test the return status because we aren't using REST framework anymore and the examples use "status"
+Added a test of the delete - wasn't sure how to test the return status because we aren't using REST framework anymore and the examples use "status".
+
+I added a test to list the bookmarks and test it by adding two then I see what the return count is. There is probably a better way to test this.
+
+I tried to add a test to update the bookmark but I had lots of trouble with the date_added field. I tried not updating that but then it required something for the date_added field. I tried giving it an updated date_added and got a NOT NULL constraint failed. I commented out the test.
 
 # Barky Refactor 3
 
