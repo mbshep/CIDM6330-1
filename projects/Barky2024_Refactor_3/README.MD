@@ -1,3 +1,7 @@
+# MBS Updates to Refactor 3
+
+I added Django Signals and testing for the additional commands in commands.py
+
 # Barky Refactor 3
 
 The [OODA Loop](https://en.wikipedia.org/wiki/OODA_loop) was created by John Boyd and is a perfect metaphor to understand event-driven development (EVD).
@@ -59,6 +63,7 @@ This will handily accommodate the premise of the internal message bus (from P&G)
 Django Signals does what P&G describe and, as we have opted for the monolith, then we'll just go the Django Signals route.
 
 Django Signals provides a relatively limited built-in vocabulary for known events, but the provided set of signals cover a majority of use cases.  The built-in signals (a signal is our event) include the following categories:
+
 - [Model Signals](https://docs.djangoproject.com/en/5.0/ref/signals/#module-django.db.models.signals)
 - [Management Signals](https://docs.djangoproject.com/en/5.0/ref/signals/#management-signals)
 - [Request/Response Signals](https://docs.djangoproject.com/en/5.0/ref/signals/#module-django.core.signals)
