@@ -2,6 +2,8 @@
 
 I added Django Signals and testing for the additional commands in commands.py
 
+Added a test of the delete - wasn't sure how to test the return status because we aren't using REST framework anymore and the examples use "status"
+
 # Barky Refactor 3
 
 The [OODA Loop](https://en.wikipedia.org/wiki/OODA_loop) was created by John Boyd and is a perfect metaphor to understand event-driven development (EVD).
