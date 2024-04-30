@@ -43,7 +43,21 @@ class TestCommands(TestCase):
         self.assertEqual(Bookmark.objects.count(), 1)
 
         # that object is the same as the one we inserted
-        self.assertEqual(Bookmark.objects.get(id=1).url, self.domain_bookmark_1.url)
+        self.assertEqual(Bookmark.objects.get(
+            id=1).url, self.domain_bookmark_1.url)
+
+    def test_command_delete(self):
+        # make sure there is a bookmark to delete
+        add_command = AddBookmarkCommand()
+        add_command.execute(self.domain_bookmark_2)
+        # now lets try to delete it
+        delete_command = DeleteBookmarkCommand()
+        delete_command.execute(self.domain_bookmark_2)
+
+        # run checks
+
+        # the item added has been deleted
+        self.assertEqual(Bookmark.objects.count(), 0)
 
     def test_command_edit(self):
 
