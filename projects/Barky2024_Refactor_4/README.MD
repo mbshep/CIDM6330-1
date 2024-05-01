@@ -1,6 +1,6 @@
 # MBS changes to Refactor 4
 
-I made the test changes just like I did in refactor 3.
+I made the test changes just like I did in refactor 3. I added tests for delete and edit of bookmarks.
 
 # Barky Refactor 4
 
